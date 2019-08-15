@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.activity.mapper.HdQuestionnaireGiftMapper">
+    
+    <resultMap type="HdQuestionnaireGift" id="HdQuestionnaireGiftResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="icon"    column="icon"    />
+        <result property="questionnaireId"    column="questionnaire_id"    />
+        <result property="extend1"    column="extend1"    />
+        <result property="extend2"    column="extend2"    />
+        <result property="extend3"    column="extend3"    />
+        <result property="extend4"    column="extend4"    />
+        <result property="extend5"    column="extend5"    />
+    </resultMap>
+	
+	<sql id="selectHdQuestionnaireGiftVo">
+        select id, name, icon, questionnaire_id, extend1, extend2, extend3, extend4, extend5 from hd_questionnaire_gift
+    </sql>
+	
+    <select id="selectHdQuestionnaireGiftList" parameterType="HdQuestionnaireGift" resultMap="HdQuestionnaireGiftResult">
+        <include refid="selectHdQuestionnaireGiftVo"/>
+        <where>
+            extend1 = 1
+            <if test="id != null "> and id = #{id}</if>
+             <if test="name != null  and name != '' "> and name = #{name}</if>
+             <if test="icon != null  and icon != '' "> and icon = #{icon}</if>
+             <if test="questionnaireId != null "> and questionnaire_id = #{questionnaireId}</if>
+             <if test="extend1 != null "> and extend1 = #{extend1}</if>
+             <if test="extend2 != null  and extend2 != '' "> and extend2 = #{extend2}</if>
+             <if test="extend3 != null  and extend3 != '' "> and extend3 = #{extend3}</if>
+             <if test="extend4 != null  and extend4 != '' "> and extend4 = #{extend4}</if>
+             <if test="extend5 != null  and extend5 != '' "> and extend5 = #{extend5}</if>
+         </where>
+    </select>
+    
+    <select id="selectHdQuestionnaireGiftById" parameterType="Long" resultMap="HdQuestionnaireGiftResult">
+        <include refid="selectHdQuestionnaireGiftVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertHdQuestionnaireGift" parameterType="HdQuestionnaireGift">
+        insert into hd_questionnaire_gift
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="icon != null  and icon != ''  ">icon,</if>
+			<if test="questionnaireId != null  ">questionnaire_id,</if>
+			<if test="extend1 != null  ">extend1,</if>
+			<if test="extend2 != null  and extend2 != ''  ">extend2,</if>
+			<if test="extend3 != null  and extend3 != ''  ">extend3,</if>
+			<if test="extend4 != null  and extend4 != ''  ">extend4,</if>
+			<if test="extend5 != null  and extend5 != ''  ">extend5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="icon != null  and icon != ''  ">#{icon},</if>
+			<if test="questionnaireId != null  ">#{questionnaireId},</if>
+			<if test="extend1 != null  ">#{extend1},</if>
+			<if test="extend2 != null  and extend2 != ''  ">#{extend2},</if>
+			<if test="extend3 != null  and extend3 != ''  ">#{extend3},</if>
+			<if test="extend4 != null  and extend4 != ''  ">#{extend4},</if>
+			<if test="extend5 != null  and extend5 != ''  ">#{extend5},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateHdQuestionnaireGift" parameterType="HdQuestionnaireGift">
+        update hd_questionnaire_gift
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="icon != null  and icon != ''  ">icon = #{icon},</if>
+            <if test="questionnaireId != null  ">questionnaire_id = #{questionnaireId},</if>
+            <if test="extend1 != null  ">extend1 = #{extend1},</if>
+            <if test="extend2 != null  and extend2 != ''  ">extend2 = #{extend2},</if>
+            <if test="extend3 != null  and extend3 != ''  ">extend3 = #{extend3},</if>
+            <if test="extend4 != null  and extend4 != ''  ">extend4 = #{extend4},</if>
+            <if test="extend5 != null  and extend5 != ''  ">extend5 = #{extend5},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteHdQuestionnaireGiftById" parameterType="Long">
+        delete from hd_questionnaire_gift where id = #{id}
+    </delete>
+	
+    <update id="deleteHdQuestionnaireGiftByIds" parameterType="String">
+        update hd_questionnaire_gift SET extend1 = 0 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    
+</mapper>

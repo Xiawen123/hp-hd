@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-hdPlayer-edit" th:object="${hdPlayer}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<input id="switch" name="switch" class="form-control" type="text" th:value="${switch}" style="display:none" >
+			<div class="form-group">
+				<label class="col-sm-3 control-label">选手名称：</label>
+				<div class="col-sm-8">
+					<input id="name" name="name" th:field="*{name}" class="form-control" type="text">
+				</div>
+			</div>
+			<!--<div class="form-group">
+				<label class="col-sm-3 control-label">活动表id：</label>
+				<div class="col-sm-8">
+					<input id="activityId" name="activityId" th:field="*{activityId}" class="form-control" type="text">
+				</div>
+			</div>-->
+			<div class="form-group">
+				<label class="col-sm-3 control-label">选手联系电话：</label>
+				<div class="col-sm-8">
+					<input id="tel" name="tel" th:field="*{tel}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group"  id="xianshi">
+				<label class="col-sm-3 control-label">分组表id：</label>
+				<div class="col-sm-8">
+					<select id="group" name="group" class="form-control">
+						<option th:each="obj,eStat:${HdGroup}" th:value="${obj.id}"
+								th:text="${obj.name}" th:selected="${#strings.contains(hdPlayer.groupId,obj.id)}"></option>
+					</select>
+					<!--<input id="groupId" name="groupId" th:field="*{groupId}" class="form-control" type="text">-->
+				</div>
+			</div>
+			<!--<div class="form-group">	-->
+				<!--<label class="col-sm-3 control-label">视频：</label>-->
+				<!--<div class="col-sm-8">-->
+					<!--<input id="video" name="video" th:field="*{video}" class="form-control" type="text">-->
+				<!--</div>-->
+			<!--</div>-->
+			<!--<div class="form-group">	-->
+				<!--<label class="col-sm-3 control-label">音频：</label>-->
+				<!--<div class="col-sm-8">-->
+					<!--<input id="voice" name="voice" th:field="*{voice}" class="form-control" type="text">-->
+				<!--</div>-->
+			<!--</div>-->
+			<div class="form-group">
+				<label class="col-sm-3 control-label">选手描述：</label>
+				<div class="col-sm-8">
+					<input id="describe" name="describe" th:field="*{describes}" class="form-control" type="text">
+				</div>
+			</div>
+			<!--<div class="form-group" type="hidden">
+				<label class="col-sm-3 control-label">选手描述：</label>
+				<div class="col-sm-8">
+					<input id="coverImg" name="coverImg" th:field="*{coverImg}" class="form-control" type="text">
+				</div>
+			</div>-->
+			<div class="from-group">
+				<label class="col-sm-3"></label>
+				<div class="col-sm-8">
+					<div style="position: relative">
+						<div class="uploadImgBtn" id="uploadImgBtn">
+							<input class="uploadImg" type="file" name="file" multiple id="file">
+						</div>
+						<div id="pics">
+
+						</div>
+						<div style="color:#9b9b9b;font-size:12px;margin-top:6px;">最多可以上传三张图片，且大小小于3M。</div>
+					</div>
+				</div>
+
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "activity/hdPlayer";
+		$("#form-hdPlayer-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			}
+		});
+        //上传选手照片
+        $(document).ready(function(){
+            //为外面的盒子绑定一个点击事件
+            $("#uploadImgBtn").click(function(){
+                /*
+                1、先获取input标签
+                2、给input标签绑定change事件
+                3、把图片回显
+                 */
+//            1、先回去input标签
+                var $input = $("#file");
+                console.log($input)
+//            2、给input标签绑定change事件
+                $input.on("change" , function(){
+                    console.log(this)
+                    //补充说明：因为我们给input标签设置multiple属性，因此一次可以上传多个文件
+                    //获取选择图片的个数
+                    var files = this.files;
+                    var length = files.length;
+                    console.log("选择了"+length+"张图片");
+                    //3、回显
+                    $.each(files,function(key,value){
+                        //每次都只会遍历一个图片数据
+                        var div = document.createElement("div"),
+                            img = document.createElement("img"),
+                            btn = document.createElement("button");
+                        div.className = "pic";
+                        img.className="imgs";
+                        div.style.position="relative";
+                        div.style.marginRight="10px";
+
+                        var fr = new FileReader();
+                        fr.onload = function(){
+                            img.src=this.result;
+                            btn.style.width="100px";
+                            btn.style.color="#ffffff";
+                            btn.style.backgroundColor="#ff4f4d";
+                            btn.style.position="absolute";
+                            btn.style.bottom="0px";
+                            btn.innerHTML="删除";
+                            btn.style.border="none";
+                            btn.style.borderRadius="3px";
+                            btn.type="button";
+                            btn.classList.add("tupian");
+                            div.appendChild(btn)
+                            div.appendChild(img);
+                            if($(".tupian").length<3){
+                                $("#pics").append(div);
+                            }else{
+                                layer.msg("您上传的图片太多了！")
+                            }
+                            $(".tupian").on("click",function () {
+                                $(this).parent().remove();
+                            })
+
+
+                        }
+                        fr.readAsDataURL(value);
+                    })
+                })
+
+                //4、我们把当前input标签的id属性remove
+                $input.removeAttr("id");
+                //我们做个标记，再class中再添加一个类名就叫test
+                var newInput = '<input class="uploadImg test" type="file" name="file" multiple id="file">';
+                $(this).append($(newInput));
+
+            })
+        })
+		$(function () {
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: prefix + "/playerImg",
+                data: {
+                    "id":$("#id").val()
+                },
+                async : false,
+                error : function(request) {
+                    $.modal.alertError("系统错误");
+                },
+                success : function(data) {
+                    console.log(data.rows[0].url)
+					var  datas=data.rows;
+                    console.log(datas)
+                    for(var i=0;i<datas.length;i++){
+                        $("#pics").append("<div class=\"pic\" style=\"position: relative; margin-right: 10px;\">" +
+							"<span class=\"tupian\" onclick=\"abc("+datas[i].id+")\" style=\"width: 100px; color: rgb(255, 255, 255); background-color: rgb(255, 79, 77);text-align: center; position: absolute; bottom: 0px; border: none; border-radius: 3px;\">删除</span>" +
+							"<img class=\"imgs\" src="+datas[i].url+"\>" +
+							"</div>");
+					}
+                }
+            })
+
+        })
+
+        function submitHandler() {
+            var groupId = $("select[name='group']").val()
+            if ($("#switch").val() == 0){
+                $("#xianshi").attr('style','display:none')
+                groupId = null
+            }
+
+            //获取用户名字
+            var name =$("#name").val();
+            var activityId=$("#activityId").val();
+            var tel=$("#tel").val();
+            var group=$("input[name='group']:checked").val();
+            var describe=$("#describe").val();
+            var imgs =document.getElementsByClassName("imgs");
+            var b=[];
+            for(var i=0;i<imgs.length;i++){
+                b.push({img:imgs[i].src});
+            }
+            var pics = JSON.stringify(b)
+            console.log(pics)
+            if(!(/^1[3456789]\d{9}$/.test(tel))){
+                layer.alert("手机号码有误，请重填")
+            }else if(b.length<1){
+                layer.alert("最少上传一张图片")
+            }else{
+                $.ajax({
+                    cache: true,
+                    type: "POST",
+                    url: prefix + "/edit",
+                    data: {
+                        "id":$("#id").val(),
+                        "name":name,
+                        "tel":tel,
+                        "groupId":groupId,
+                        "describes":describe,
+                        "pics":pics
+                    },
+                    async : false,
+                    error : function(request) {
+                        $.modal.alertError("系统错误");
+                    },
+                    success : function(data) {
+                        $.operate.successCallback(data);
+                    }
+                })
+            }
+
+
+        }
+        function abc(id){
+
+            layer.alert('确定要删除么？', {
+                title: '删除确认',
+                closeBtn: 0,
+                anim: 1, //动画类型
+                btn: ['确定','取消'],
+                yes:function(index){
+                    $.ajax({
+                        cache: true,
+                        type: "POST",
+                        url: ctx + "activity/hdPlayerImg/remove",
+                        data: {"id":id},
+                        async : false,
+                        error : function(request) {
+                            $.modal.alertError("系统错误");
+                        },
+                        success : function(data) {
+//                            $.operate.successCallback(data);
+							layer.msg("删除成功!");
+                            window.location.reload()
+                        }
+                    })
+                },
+                btn2:function(index){
+                    layer.close(index);
+                }
+            });
+        }
+
+
+	</script>
+</body>
+</html>

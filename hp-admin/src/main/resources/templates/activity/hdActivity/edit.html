@@ -1,0 +1,1155 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<head th:include="include :: header"></head>
+<link th:href="@{/ajax/libs/summernote/summernote.css}" rel="stylesheet"/>
+<link th:href="@{/ajax/libs/summernote/summernote-bs3.css}" rel="stylesheet"/>
+<style>
+	.establish_number{
+		border: solid 1px #e8e8e8;
+		height: 28px;
+		color: #333;
+		width: 85px;
+		border-radius: 2px;
+		margin: 0 10px;
+		text-align: center;
+	}
+</style>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content" id="app">
+	<form class="form-horizontal m" id="form-hdActivity-edit" th:object="${hdActivity}">
+		<input id="id" name="id" th:field="*{id}" type="hidden">
+		<input id="extend1" name="extend1" th:field="*{extend1}" type="hidden">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">活动名称：</label>
+			<div class="col-sm-7">
+				<input id="name" name="name" th:field="*{name}" class="form-control" type="text" placeholder="请输入活动名称">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">活动开始(结束)时间：</label>
+			<div class="col-sm-7">
+				<input type="text" class="layui-input" th:field="*{start}" id="test10" placeholder="请选择活动开始和结束时间" lay-key="11">
+			</div>
+		</div>
+		<hr/>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"></label>
+			<div class="col-sm-8">
+				<div class="activity_time clearfix" style="font-size:22px;">活动封面设置</div>
+				<!--<span style="margin-left: 10px;font-size:18px;color: #9b9b9b;">活动封面只能选择一种方式</span>
+				<div class="fengmian_btn clearfix">
+					<div class="fengmian_btn1" style="background: rgb(83, 143, 252); color: rgb(255, 255, 255);">
+						图片封面
+						<input class="fm_radio" type="radio" name="tr" value="1" checked="checked">
+					</div>
+					<div class="fengmian_btn1" style="background: none; color: rgb(83, 143, 252);">
+                        <input class="fm_radio" type="radio" name="tr" value="2">
+                        视频封面
+                    </div>
+				</div>-->
+				<!-- 图片封面 -->
+				<div style="position: relative">
+					<div class="uploadImgBtn" id="uploadImgBtn">
+						<input class="uploadImg" type="file" name="file" multiple id="file">
+					</div>
+					<div id="pics">
+
+					</div>
+					<div style="color:#9b9b9b;font-size:12px;margin-top:6px;">最多可以上传六张图片，且大小小于3M。</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"></label>
+			<div class="col-sm-8">
+				<div class="activity_time">主题设置</div>
+				<input type="hidden" id="theme" value="3">
+
+				<ul class="style_box old_stylebox clearfix">
+					<li class="style_every" style="background: #31cab1;">
+						<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/duihao.png" style="display: block;">
+						<input type="radio" name="sex"  checked="checked" value="1">
+					</li>
+
+					<!--<li class="style_every" style="background: #e54242;">-->
+					<!--<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/duihao.png" style="display: none;">-->
+					<!--<input type="radio" name="sex" class="sex" value="2">-->
+					<!--</li>-->
+
+					<!--<li class="style_every" style="background: #ff8939;">-->
+					<!--<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/duihao.png" style="display: none;">-->
+					<!--<input type="radio" name="sex" class="sex" value="3">-->
+					<!--</li>-->
+
+					<!--<li class="style_every" style="background: #ffb712;">-->
+					<!--<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/duihao.png" style="display: none;">-->
+					<!--<input type="radio" name="sex" class="sex" value="4">-->
+					<!--</li>-->
+
+					<!--<li class="style_every" style="background: #1dc47b;">-->
+					<!--<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/duihao.png" style="display: none;">-->
+					<!--<input type="radio" name="sex" class="sex" value="5">-->
+					<!--</li>-->
+
+					<!--<li class="style_every" style="background: #4495f7;">-->
+					<!--<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/duihao.png" style="display: none;">-->
+					<!--<input type="radio" name="sex" class="sex" value="6">-->
+					<!--</li>-->
+
+					<!--<li class="style_every" style="background: #af71ed;">-->
+					<!--<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/duihao.png" style="display: none;">-->
+					<!--<input type="radio" name="sex" class="sex" value="7">-->
+					<!--</li>-->
+
+					<!--<li class="style_every" style="background: #ff5e8b;">-->
+					<!--<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/duihao.png" style="display: none;">-->
+					<!--<input type="radio" name="sex" class="sex" value="8">-->
+					<!--</li>-->
+
+					<!--<li class="style_every" style="background: #5d6e7f;">-->
+					<!--<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/duihao.png" style="display: none;">-->
+					<!--<input type="radio" name="sex" class="sex" value="9">-->
+					<!--</li>-->
+
+					<!--<li class="style_every" style="background: -webkit-linear-gradient(left, #33a1fc , #a340fb); /* Safari 5.1 - 6.0 */-->
+					<!--background: -o-linear-gradient(right, #33a1fc, #a340fb); /* Opera 11.1 - 12.0 */-->
+					<!--background: -moz-linear-gradient(right, #33a1fc, #a340fb); /* Firefox 3.6 - 15 */">-->
+					<!--<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/duihao.png" style="display: none;">-->
+					<!--<input type="radio" name="sex" class="sex" value="10">-->
+					<!--</li>-->
+					<!--<li class="style_every" style="background: -webkit-linear-gradient(left, #04bbe0 , #21ecb3); /* Safari 5.1 - 6.0 */background: -o-linear-gradient(right, #04bbe0, #21ecb3); /* Opera 11.1 - 12.0 */background: -moz-linear-gradient(right, #04bbe0, #21ecb3); /* Firefox 3.6 - 15 */;">-->
+					<!--<img src="https://www.qmwtp.com/assets/www/ActivityPc2/img/duihao.png" style="display: none;">-->
+					<!--<input type="radio" name="sex" class="sex" value="11">-->
+					<!--</li>-->
+
+					<!--<li class="style_every" style="background: -webkit-linear-gradient(left, #fd506e , #f9af42); /* Safari 5.1 - 6.0 */ background: -o-linear-gradient(right, #fd506e, #f9af42); /* Opera 11.1 - 12.0 */background: -moz-linear-gradient(right, #fd506e, #f9af42); /* Firefox 3.6 - 15 */">-->
+					<!--<img src="https://www.qmwtp.com/assets/www/ActivityPc2/img/duihao.png" style="display: none;">-->
+					<!--<input type="radio" name="sex" class="sex" value="12">-->
+					<!--</li>-->
+				</ul>
+				<!--<input id="cover" name="cover" class="form-control" type="text">-->
+			</div>
+		</div>
+		<div class="form-group">
+			<input type="hidden" id="apply" th:field="*{apply}">
+			<label class="col-sm-2 control-label"></label>
+			<div class="col-sm-8">
+				<div class="activity_time" style="margin-bottom: 15px;">活动开始后报名<span style="margin-left: 10px;font-size:12px;color: #9b9b9b;"><!-- （选手报名截止时间段） --></span></div>
+				<div>
+					<div class="jiezhi_time_box clearfix">
+						<div class="xuanze_btn">
+							<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png">
+							<input class="xuanze_raido start" type="radio" value="1" name="sign_up_type" checked="checked">
+						</div>
+						<div class="jiezhi_txt">允许<span style="color:#9b9b9b;font-size:12px;margin-left: 10px; "><!-- 活动结束前全时间段均可报名 --></span></div>
+					</div>
+
+					<div class="jiezhi_time_box clearfix">
+						<div class="xuanze_btn">
+							<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png">
+							<input class="xuanze_raido start" type="radio" value="0" name="sign_up_type">
+						</div>
+						<div class="jiezhi_txt">不允许<span style="color:#9b9b9b;margin-left: 10px; font-size:12px;"><!-- 活动到达开始时间后选手不可报名 --></span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr/>
+		<div class="form-group">
+			<input type="hidden" id="grouping" th:field="*{grouping}">
+			<label class="col-sm-2 control-label"></label>
+			<div class="col-sm-8 layui-form">
+				<div class="activity_time" style="margin-bottom: 15px;">分组设置<img class="fenzutishi" style="position: relative;left:9px;" src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/wenhao2.png"></div>
+				<input type="checkbox" name="zzz" id="packet"  lay-skin="switch" lay-filter="switchTest"  lay-text="开启|关闭">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"></label>
+			<div class="col-sm-8" id="box" style="display:none">
+				<div class="operation_box" style="display:none;">
+					<div class="zaozuo_content">
+						<div class="group_btn">添加分组</div>
+					</div>
+				</div>
+				<!-- 添加分组弹窗 -->
+				<div class="group_alert" style="display: none;">
+					<div class="group_input_box">
+						<div class="group_input_title">
+							添加分组名称
+						</div>
+						<input type="text" class="group_input" name="" placeholder="请输入分组">
+						<div class="btn_box">
+							<div id="confirm_btn" class="confirm_btn">确认</div>
+							<div class="cancel_btn">取消</div>
+						</div>
+					</div>
+				</div>
+				<div class="zaozuo_content clearfix" id="caozuo" style="display: none;">
+					<div class="txt_fenzu">分组名称</div>
+					<div class="txt_fenzu" style="margin-left: 100px;">排序<span style="font-size: 12px;color: #9b9b9b;">（排列顺序按数字从小到大）</span></div>
+				</div>
+				<div>
+					<div id="fenzuRow">
+
+					</div>
+					<div class="group_alert1" style="display: none;">
+						<div class="group_input_box1"><div class="group_input_title1">修改分组名称</div>
+							<input type="text" class="group_input1" name="">
+							<input type="text" class="fenzu_number1" style="display:none;" name="">
+							<div class="btn_box">
+								<div class="confirm_btn1">确认</div>
+								<div class="cancel_btn1">取消</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<hr/>
+		<div class="form-group">
+			<input type="hidden" id="sort" th:field="*{sort}">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+				<div class="activity_time" style="margin-bottom: 15px;">选手排序<span style="margin-left: 10px;font-size:12px;color: #9b9b9b;">（首页选手排序规则）</span></div>
+				<div class="sort_box">
+
+					<div class="sort_option option_case_active">
+						编号从低到高
+						<input type="radio" name="player_orderby" value="1">
+					</div>
+
+					<div class="sort_option case_border">
+						票数从高到低
+						<input type="radio" name="player_orderby" value="2" checked="checked">
+					</div>
+
+					<div class="sort_option">
+						报名时间倒序
+						<input type="radio" name="player_orderby" value="3">
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr/>
+		<div class="form-group">
+			<label class="col-sm-2"></label>
+			<div class="col-sm-8">
+				<div class="activity_time">背景音乐<span style="margin-left: 10px;color: #9b9b9b;">选填</span></div>
+				<div class="jiezhi_time_box clearfix">
+					<div class="xuanze_btn" style="top: 5px;">
+						<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png">
+						<input class="xuanze_raido" type="radio" value="2" name="music_radio" onclick="chk_music(2,this)" checked="checked">
+
+					</div>
+					<div class="jiezhi_txt" style="margin-top: 7px;">音乐链接</div><input style="width: 190px;margin-left: 15px;margin-top: 1px;" type="text" class="music_link" id="default_music_link" name="default_music_link" placeholder="音乐链接地址" th:field="*{music}" checked="checked">
+				</div>
+				<div style="color:#9b9b9b;font-size:12px;margin-top:6px;">音乐链接前缀需为http或https开头的.mp3格式文件，否则不能播放</div>
+			</div>
+		</div>
+		<hr/>
+		<div class="form-group">
+			<input type="hidden" id="isAnnouncement" th:field="*{isAnnouncement}">
+			<label class="col-sm-2"></label>
+			<div class="col-sm-8">
+				<div class="activity_time">活动公告<span style="margin-left: 10px;color: #9b9b9b;">可以帮助企业家和商家宣传</span></div>
+				<div class="jiezhi_time_box clearfix">
+					<div class="xuanze_btn">
+						<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png">
+						<input class="xuanze_raido announcement" name="announcement" type="radio" id="qiyong" value="1" >
+					</div>
+					<div class="jiezhi_txt">启用</div>
+				</div>
+				<div class="jiezhi_time_box clearfix">
+					<div class="xuanze_btn">
+						<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png">
+						<input class="xuanze_raido announcement" name="announcement" type="radio" id="buqiyong" value="0"  checked="checked">
+					</div>
+					<div class="jiezhi_txt">不启用</div>
+				</div>
+				<input type="text" class="music_link" style="display:none;" id="gonggao" name="activity_Bulletin" th:field="*{announcement}" placeholder="请输入活动公告内容">
+			</div>
+		</div>
+		<hr/>
+		<div class="form-group">
+			<input type="hidden" id="audit" th:field="*{audit}">
+			<label class="col-sm-2"></label>
+			<div class="col-sm-8">
+				<div class="activity_time" style="margin-bottom: 15px;">报名审核模式</div>
+				<div class="jiezhi_time_box clearfix">
+					<div class="xuanze_btn">
+						<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png">
+						<input class="xuanze_raido audit" type="radio" value="0" name="examine">
+					</div>
+					<div class="jiezhi_txt">无需审核<span style="color:#9b9b9b;font-size:12px;margin-left: 10px; ">选手报名后自动审核成功 无需手动审核</span></div>
+				</div>
+				<div class="jiezhi_time_box clearfix">
+					<div class="xuanze_btn">
+
+						<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png">
+						<input class="xuanze_raido audit" type="radio" value="1" name="examine" checked="checked">
+					</div>
+					<div class="jiezhi_txt">需要审核<span style="color:#9b9b9b;margin-left: 10px; font-size:12px;">选手报名后 需要及时审核选手</span></div>
+				</div>
+			</div>
+		</div>
+		<hr/>
+		<div class="form-group">
+			<input type="hidden" id="sett" th:field="*{sett}">
+			<input type="hidden" id="votes" th:field="*{vote}">
+			<input type="hidden" id="maxVotes" th:field="*{maxVote}">
+			<label class="col-sm-2"></label>
+			<div class="col-sm-8">
+				<div class="activity_time">投票设置<span style="margin-left: 10px;color: #9b9b9b;font-size:12px;">限制选手每天每小时获得票数 但不对送礼物增加票数进行限制</span></div>
+				<div class="jiezhi_time_box clearfix">
+					<div class="xuanze_btn" style="top: 5px;">
+						<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png">
+						<input class="xuanze_raido vote" type="radio" value="1" name="toupiao_set" checked="checked">
+					</div>
+					<!-- list_music -->
+					<div class="jiezhi_txt">一个微信号每天能投
+						<input class="establish_number" id="txt_day_piao" type="text" value="1"  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">票
+					</div>
+					<span style="margin-left:37px; line-height: 30px;">最高为
+						<input class="establish_number" id="txt_day_piaoMax"   type="text" value="5" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">票
+					</span>
+				</div>
+				<div class="jiezhi_time_box clearfix">
+					<div class="xuanze_btn" style="top: 2px;">
+						<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png">
+						<input class="xuanze_raido vote" type="radio" value="2" name="toupiao_set" >
+					</div>
+					<!-- list_music -->
+					<div class="jiezhi_txt" style="margin-top: 2px;">活动时间内只能投一票</div>
+				</div>
+				<div class="jiezhi_time_box clearfix" style="margin-top: 15px;">
+					<div class="xuanze_btn" style="top:5px;">
+						<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png">
+						<input class="xuanze_raido vote" type="radio" value="3" name="toupiao_set">
+					</div>
+					<!-- list_music -->
+					<div class="jiezhi_txt">一个微信号每天能投<input class="establish_number"  id="txt_play_piao" type="text" value="1" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">票，同一个选手只能投一票</div>
+				</div>
+			</div>
+		</div>
+		<hr/>
+		<div class="form-group">
+			<label class="col-sm-2"></label>
+			<div class="col-sm-8">
+				<div class="activity_time">选手图片</div>
+				<div class="jiezhi_time_box clearfix">
+					<div class="xuanze_btn" style="top: 5px;">
+						<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png">
+						<input class="xuanze_raido vote" type="radio" value="1" name="toupiao_set" checked="checked">
+					</div>
+					<!-- list_music -->
+					<div class="jiezhi_txt">选手图片上限为<input class="establish_number" id="txt_day_piaos" type="text" th:field="*{extend2}" value="" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">票</div>
+				</div>
+			</div>
+		</div>
+		<hr/>
+		<div class="form-group">
+			<input type="hidden" id="ballotRigging" th:field="*{ballotRigging}">
+			<label class="col-sm-2 control-label"></label>
+			<div class="col-sm-8 layui-form">
+				<div class="activity_time" style="margin-bottom: 15px;">防刷票<img class="fenzutishi" style="position: relative;left:9px;" src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/wenhao2.png"><span style="margin-left: 10px;color: #9b9b9b;font-size:12px;">限制选手每天每小时获得票数 但不对送礼物增加票数进行限制</span></div>
+				<input type="checkbox" name="zzz"  id="brushend" lay-skin="switch" lay-filter="brush" lay-text="开启|关闭">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2"></label>
+			<div class="col-sm-8" id="brush" style="display: none;">
+				<div class="ticket_box">
+					选手每小时最多得到<input class="ticket_input" id="ticket_input-H"  th:field="*{hourMax}" type="text" name="player_per_hour_get_votes_limit" value="500" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"> 票
+					<div style="color:#9b9b9b;font-size:12px;margin-top:6px;float: right;margin-right: 40px;">状态为“0”时，不限选手得票数量</div>
+				</div>
+				<div class="ticket_box">
+					选手每天最多得到<input class="ticket_input" id="ticket_input-D" th:field="*{dayMax}" type="text" name="player_get_daily_upper_limit" value="2000" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"> 票
+					<div style="color:#9b9b9b;font-size:12px;margin-top:6px;float: right;margin-right: 40px;"> 状态为“0”时，不限选手得票数量</div>
+				</div>
+				<div class="ticket_box">
+					<input type="hidden" id="verificationCode" th:field="*{verificationCode}">
+					<span style="float: left;line-height: 35px;color: #333;margin-right: 10px;"> 投票</span>
+					<select class="establish_piao" id="establish_piao" name="yzm_establish_piao">
+						<option value="0">不启用</option>
+						<option value="1">启用</option>
+					</select>
+					验证码
+				</div>
+			</div>
+		</div>
+		<hr/>
+		<div class="form-group">
+			<label class="col-sm-2"></label>
+			<div class="col-sm-8">
+				<div class="activity_time">虚拟数量<span style="margin-left: 10px;font-size:12px;color: #9b9b9b;">（前台显示的虚拟数量 设置后将和真实数据叠加 0为不设置）</span></div>
+				<div class="ticket_box">
+					<span>浏览量：</span><input class="liulan_input" th:field="*{browse}" id="unreal_num" type="text" name="unreal_num" value="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+					<span>投票数：</span><input class="liulan_input" th:field="*{sumVote}" id="unreal_votes" type="text" name="unreal_votes" value="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+					<span>报名数：</span><input class="liulan_input" th:field="*{enroll}" id="unreal_sign_up" type="text" name="unreal_sign_up" value="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="form-group">
+			<input type="hidden" id="extend3" th:field="*{extend3}">
+			<label class="col-sm-2"></label>
+			<div class="col-sm-8">
+				<div class="activity_time">活动开放</div>
+				<div class="jiezhi_time_box clearfix">
+					<div class="xuanze_btn">
+						<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png">
+						<input class="xuanze_raido opens" name="opens" type="radio" id="gongkai" value="0" >
+					</div>
+					<div class="jiezhi_txt">不开放</div>
+				</div>
+				<div class="jiezhi_time_box clearfix">
+					<div class="xuanze_btn">
+						<img src="https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png">
+						<input class="xuanze_raido opens" name="opens" type="radio" id="bugongkai" value="1"  checked="checked">
+					</div>
+					<div class="jiezhi_txt">开放</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="form-group">
+			<input type="hidden" id="introduction" th:field="*{introduction}">
+			<label class="col-sm-2 control-label">编辑活动内容：</label>
+			<div class="col-sm-8">
+				<form class="form-horizontal m" id="form-oss-edit">
+					<input name="editorcode" id="editorcode"   type="hidden"    />
+					<div class="summernote" id="summernote"></div>
+				</form>
+			</div>
+		</div>
+
+	</form>
+</div>
+<div th:include="include::footer"></div>
+<script th:src="@{/ajax/libs/summernote/summernote.min.js}"></script>
+<script th:src="@{/ajax/libs/summernote/summernote-zh-CN.js}"></script>
+</body>
+<script type="text/javascript">
+    var prefix = ctx + "activity/hdActivity";
+    $("#form-hdActivity-add").validate({
+        rules:{
+            xxxx:{
+                required:true
+            },
+        }
+    });
+    //夫文本框设置
+    $("#summernote").html($("#introduction").val());
+    //设置活动开始后报名
+    for(var i=0;i<$(".start").length;i++){
+        if($("#apply").val()==1){
+            $(".start").eq(1).removeAttr("checked");
+            $(".start").eq(0).attr("checked","checked");
+            $(".start").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+            $(".start").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        }else{
+            $(".start").eq(0).removeAttr("checked");
+            $(".start").eq(1).attr("checked","checked");
+            $(".start").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+            $(".start").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+        }
+    }
+    //获取活动开关
+    if($("#extend3").val()==0){
+        $(".opens").eq(1).removeAttr("checked");
+        $(".opens").eq(0).attr("checked","checked");
+        $(".opens").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+        $(".opens").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+	}else {
+        $(".opens").eq(0).removeAttr("checked");
+        $(".opens").eq(1).attr("checked","checked");
+        $(".opens").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        $(".opens").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+	}
+    //防刷票
+    if($("#ballotRigging").val()==1){
+        $("#brushend").attr("checked","checked")
+        $("#brush").css("display","block");
+    }
+    //分组开关
+    if(	$("#grouping").val()==1){
+        $("#packet").attr("checked","checked");
+        $("#box").css("display","block");
+        $(".operation_box").css("display","block");
+
+        $(".operation_box").on("click",function () {
+            $(".group_alert").css("display","block");
+        });
+        $(".cancel_btn").on("click",function () {
+            $(".group_input ").val("");
+            $(".group_alert").css("display","none");
+        });
+        $("#confirm_btn").on("click",function () {
+            var confirms = $(".group_input ").val();
+            var Numbers = $(".xiugaiGroup").length+1;
+            if(confirms!=""&&confirms!="default"&&confirms!=null){
+                var uls ="<ul class=\"fenzu_list clearfix\">\n" +
+                    "\t\t\t\t\t\t\t\t<li class=\"fenzu_name\">\n" +
+                    "\t\t\t\t\t\t\t\t\t<input type=\"hidden\" class=\"uId\" value=\"1\">\n" +
+                    "\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"name\" name=\"group_name[]\" value=\""+confirms+"\" readonly=\"readonly\">\n" +
+                    "\t\t\t\t\t\t\t\t</li>\n" +
+                    "\t\t\t\t\t\t\t\t<li class=\"fenzu_number\">"+Numbers+"</li>\n" +
+                    "\t\t\t\t\t\t\t\t<li class=\"xiugaiGroup\" onclick=\"changeGroup(this)\">修改</li>\n" +
+                    "\t\t\t\t\t\t\t\t<li class=\"fenzu_del\" onclick=\"del_group(this)\">删除</li>\n" +
+                    "\t\t\t\t\t\t\t</ul>";
+                $("#fenzuRow").append(uls);
+                $("#caozuo").css("display","block");
+                $(".group_alert").css("display","none");
+            }else{
+                layer.msg("添加分组名称不可以为空！");
+            }
+            $(".group_input ").val("");
+
+        })
+
+        //获取分组值
+        console.log($("#id").val())
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: ctx + "activity/hdGroup/list",
+            data: {
+                "activityId":$("#id").val()
+            },
+            async : false,
+            /*type: "POST",
+            url: ctx+"activity/hdGroup/list",
+            data: {"activityId":$("#id").val()},
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: 'json',*/
+            success: function(result) {
+                for(var i=0;i<result.rows.length;i++){
+                    var uls ="<ul class=\"fenzu_list clearfix\">\n" +
+                        "\t\t\t\t\t\t\t\t<li class=\"fenzu_name\">\n" +
+                        "\t\t\t\t\t\t\t\t\t<input type=\"hidden\" class=\"uId\" value=\""+result.rows[i].id+"\">\n" +
+                        "\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"name\" name=\"group_name[]\" value=\""+result.rows[i].name+"\" readonly=\"readonly\">\n" +
+                        "\t\t\t\t\t\t\t\t</li>\n" +
+                        "\t\t\t\t\t\t\t\t<li class=\"fenzu_number\">"+result.rows[i].sort+"</li>\n" +
+                        "\t\t\t\t\t\t\t\t<li class=\"xiugaiGroup\" onclick=\"changeGroup(this)\">修改</li>\n" +
+                        "\t\t\t\t\t\t\t\t<li class=\"fenzu_del\" onclick=\"del_groups(this,'"+result.rows[i].id+"')\">删除</li>\n" +
+                        "\t\t\t\t\t\t\t</ul>";
+                    $("#fenzuRow").append(uls);
+                }
+            },
+            error: function(error) {
+                console.log(error)
+
+            }
+        });
+    }
+    //获取选手排序
+    for(var i=0;i<$(".sort_option").length;i++){
+        if($("#sort").val()==$(".sort_option>input").eq(i).val()){
+            $(".sort_option").eq(i).addClass("option_case_active").siblings().removeClass("option_case_active");
+        }
+    }
+    //启用公告
+    if(	$("#isAnnouncement").val()==1){
+        $("#gonggao").css("display","block");
+        //删除选中
+        $(".announcement").eq(1).removeAttr("checked");
+        //给当前绑定选中
+        $(".announcement").eq(0).attr("checked","checked");
+        $(".announcement").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+        $(".announcement").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+    }else{
+        $("#gonggao").css("display","none");
+        $(".announcement").eq(0).removeAttr("checked");
+        $(".announcement").eq(1).attr("checked","checked");
+        $(".announcement").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        $(".announcement").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+    }
+    if($("#audit").val()==1){
+        $(".audit").eq(0).removeAttr("checked");
+        $(".audit").eq(1).attr("checked","checked");
+        $(".audit").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        $(".audit").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+    }else{
+        $(".audit").eq(1).removeAttr("checked");
+        $(".audit").eq(0).attr("checked","checked");
+        $(".audit").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+        $(".audit").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+    }
+    if($("#sett").val()==1){
+        $(".vote").eq(1).removeAttr("checked");
+        $(".vote").eq(2).removeAttr("checked");
+        $(".vote").eq(0).attr("checked","checked");
+        $(".vote").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+        $(".vote").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        $(".vote").eq(2).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+    }else if($("#sett").val()==2){
+        $(".vote").eq(0).removeAttr("checked");
+        $(".vote").eq(2).removeAttr("checked");
+        $(".vote").eq(1).attr("checked","checked");
+        $(".vote").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        $(".vote").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+        $(".vote").eq(2).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+    }else{
+        $(".vote").eq(0).removeAttr("checked");
+        $(".vote").eq(1).removeAttr("checked");
+        $(".vote").eq(2).attr("checked","checked");
+        $(".vote").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        $(".vote").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        $(".vote").eq(2).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+    }
+    //日期时间范围
+    laydate.render({
+        elem: '#test10'
+        ,type: 'datetime'
+        ,range: '~'
+        ,trigger: 'click'
+    });
+    function submitHandler() {
+        if ($.validate.form()) {
+            add();
+        }
+    }
+    //富文本框上传
+    $('.summernote').summernote({
+        height : '220px',
+        lang : 'zh-CN',
+        callbacks: {
+            onImageUpload: function (files) {
+                sendFile(files[0], this);
+            }
+        }
+    });
+
+    // 上传文件
+    function sendFile(file, obj) {
+        var data = new FormData();
+        data.append("file", file);
+        $.ajax({
+            type: "POST",
+            url: ctx+"system/oss/upload",
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(result) {
+                if (result.code == web_status.SUCCESS) {
+                    $(obj).summernote('editor.insertImage', result.url, result.fileName);
+                } else {
+                    $.modal.alertError(result.msg);
+                }
+            },
+            error: function(error) {
+                $.modal.alertWarning("图片上传失败。");
+            }
+        });
+    }
+    /*function submitHandler() {
+        var content = $('.summernote').summernote('code');//获取编辑器内容
+        alert(content);
+    }*/
+    //主题设置
+
+    $(".style_every").on("click",function () {
+        $(this).children().eq(0).css("display","block");
+        for(var i=0;i<$(".style_every").length;i++){
+            $(this).siblings().eq(i).children().eq(0).css("display","none");
+        }
+    })
+    //活动开始报名
+    $(".start").on("click",function () {
+        if($(this).val()==1){
+            $(".start").eq(1).removeAttr("checked");
+            $(".start").eq(0).attr("checked","checked");
+            $(".start").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+            $(".start").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        }else{
+            $(".start").eq(0).removeAttr("checked");
+            $(".start").eq(1).attr("checked","checked");
+            $(".start").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+            $(".start").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+        }
+    });
+    //活动公告
+    $(".announcement").on("click",function () {
+        if($(this).val()==1){
+            $("#gonggao").css("display","block");
+            //删除选中
+            $(".announcement").eq(1).removeAttr("checked");
+            //给当前绑定选中
+            $(".announcement").eq(0).attr("checked","checked");
+            $(".announcement").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+            $(".announcement").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        }else{
+            $("#gonggao").css("display","none");
+            $(".announcement").eq(0).removeAttr("checked");
+            $(".announcement").eq(1).attr("checked","checked");
+            $(".announcement").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+            $(".announcement").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+        }
+    });
+    //活动审核
+    $(".audit").on("click",function () {
+        if($(this).val()==1){
+            $(".audit").eq(0).removeAttr("checked");
+            $(".audit").eq(1).attr("checked","checked");
+            $(".audit").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+            $(".audit").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+        }else{
+            $(".audit").eq(1).removeAttr("checked");
+            $(".audit").eq(0).attr("checked","checked");
+            $(".audit").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+            $(".audit").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        }
+    });
+    //活动投票设置
+    $(".vote").on("click",function () {
+        if($(this).val()==1){
+            $(".vote").eq(1).removeAttr("checked");
+            $(".vote").eq(2).removeAttr("checked");
+            $(".vote").eq(0).attr("checked","checked");
+            $(".vote").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+            $(".vote").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+            $(".vote").eq(2).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        }else if($(this).val()==2){
+            $(".vote").eq(0).removeAttr("checked");
+            $(".vote").eq(2).removeAttr("checked");
+            $(".vote").eq(1).attr("checked","checked");
+            $(".vote").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+            $(".vote").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+            $(".vote").eq(2).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        }else{
+            $(".vote").eq(0).removeAttr("checked");
+            $(".vote").eq(1).removeAttr("checked");
+            $(".vote").eq(2).attr("checked","checked");
+            $(".vote").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+            $(".vote").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+            $(".vote").eq(2).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+        }
+    });
+    //活动开放
+    $(".opens").on("click",function () {
+        if($(this).val()==1){
+            $(".opens").eq(0).removeAttr("checked");
+            $(".opens").eq(1).attr("checked","checked");
+            $(".opens").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+            $(".opens").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+        }else{
+            //删除选中
+            $(".opens").eq(1).removeAttr("checked");
+            //给当前绑定选中
+            $(".opens").eq(0).attr("checked","checked");
+            $(".opens").eq(0).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon2.png");
+            $(".opens").eq(1).prev().attr("src","https://whhp.oss-cn-hangzhou.aliyuncs.com/app/xuanze_icon1.png");
+        }
+    });
+    if($("input[name='toupiao_set']:checked").val()==1){
+		$("#txt_day_piao").val($("#votes").val())
+		$("#txt_day_piaoMax").val($("#maxVotes").val())
+    }else if($("input[name='toupiao_set']:checked").val()==3){
+		$("#txt_play_piao").val($("#votes").val())
+    }
+
+    //上传轮播图
+    $(document).ready(function(){
+        //为外面的盒子绑定一个点击事件
+        $("#uploadImgBtn").click(function(){
+            /*
+            1、先获取input标签
+            2、给input标签绑定change事件
+            3、把图片回显
+             */
+//            1、先回去input标签
+            var $input = $("#file");
+            console.log($input)
+//            2、给input标签绑定change事件
+            $input.on("change" , function(){
+                console.log(this)
+                //补充说明：因为我们给input标签设置multiple属性，因此一次可以上传多个文件
+                //获取选择图片的个数
+                var files = this.files;
+                var length = files.length;
+                console.log("选择了"+length+"张图片");
+                //3、回显
+                $.each(files,function(key,value){
+                    //每次都只会遍历一个图片数据
+                    var div = document.createElement("div"),
+                        img = document.createElement("img"),
+                        btn = document.createElement("button");
+                    div.className = "pic";
+                    img.className="imgs";
+                    div.style.position="relative";
+                    div.style.marginRight="10px";
+
+                    var fr = new FileReader();
+                    fr.onload = function(){
+                        img.src=this.result;
+                        btn.style.width="100px";
+                        btn.style.color="#ffffff";
+                        btn.style.backgroundColor="#ff4f4d";
+                        btn.style.position="absolute";
+                        btn.style.bottom="0px";
+                        btn.innerHTML="删除";
+                        btn.style.border="none";
+                        btn.style.borderRadius="3px";
+                        btn.type="button";
+                        btn.classList.add("tupian");
+                        div.appendChild(btn)
+                        div.appendChild(img);
+                        if($(".tupian").length<6){
+                            $("#pics").append(div);
+                        }else{
+                            layer.msg("您上传的图片太多了！")
+                        }
+                        $(".tupian").on("click",function () {
+                            $(this).parent().remove();
+                        })
+
+
+                    }
+                    fr.readAsDataURL(value);
+                })
+            })
+
+            //4、我们把当前input标签的id属性remove
+            $input.removeAttr("id");
+            //我们做个标记，再class中再添加一个类名就叫test
+            var newInput = '<input class="uploadImg test" type="file" name="file" multiple id="file">';
+            $(this).append($(newInput));
+
+
+        })
+    })
+    $(function () {
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: ctx + "activity/hdCover/list",
+            data: {
+                "activityId":$("#id").val()
+            },
+            async : false,
+            error : function(request) {
+                $.modal.alertError("系统错误");
+            },
+            success : function(data) {
+                console.log(data.rows[0].url)
+                var  datas=data.rows;
+                console.log(datas)
+                for(var i=0;i<datas.length;i++){
+                    $("#pics").append("<div class=\"pic\" style=\"position: relative; margin-right: 10px;\">" +
+                        "<span  class=\"tupian\" onclick='abc("+datas[i].id+")' style=\"width: 100px; color: rgb(255, 255, 255); background-color: rgb(255, 79, 77); position: absolute;text-align: center; bottom: 0px; border: none; border-radius: 3px;cursor:pointer; \">删除</span>" +
+                        "<img class=\"imgs\" src="+datas[i].url+"\>" +
+                        "</div>");
+                }
+            }
+        })
+
+    });
+    //删除图片方法
+    function abc(id){
+        layer.alert('确定要删除么？', {
+            title: '删除确认',
+            closeBtn: 0,
+            anim: 1, //动画类型
+            btn: ['确定','取消'],
+            yes:function(index){
+                $.ajax({
+                    cache: true,
+                    type: "POST",
+                    url: ctx + "activity/hdCover/remove",
+                    data: {"id":id},
+                    async : false,
+                    error : function(request) {
+                        $.modal.alertError("系统错误");
+                    },
+                    success : function(data) {
+//                            $.operate.successCallback(data);
+                        layer.msg("删除成功!");
+                        window.location.reload()
+                    }
+                })
+            },
+            btn2:function(index){
+                layer.close(index);
+            }
+        });
+    }
+
+    var kaiguan;
+    if($("#grouping").val()==1){
+        kaiguan=true;
+	}else{
+        kaiguan=false;
+	}
+    //引用开关layui
+    layui.use('form', function() {
+        var form = layui.form;
+        form.on('switch(switchTest)', function(data){
+//            console.log(data.elem.checked); //开关是否开启，true或者false
+            kaiguan=data.elem.checked;
+
+            if(kaiguan){
+                $("#box").css("display","block");
+                $(".operation_box").css("display","block");
+            }else{
+                $(".operation_box").css("display","none");
+                $("#box").css("display","none");
+            }
+            $(".operation_box").on("click",function () {
+                $(".group_alert").css("display","block");
+            });
+            $(".cancel_btn").on("click",function () {
+                $(".group_input ").val("");
+                $(".group_alert").css("display","none");
+            });
+            $("#confirm_btn").on("click",function () {
+                var confirms = $(".group_input ").val();
+                var Numbers = $(".xiugaiGroup").length+1;
+                if(confirms!=""&&confirms!="default"&&confirms!=null){
+                    var uls ="<ul id='clearfix' class=\"fenzu_list clearfix\">\n" +
+                        "\t\t\t\t\t\t\t\t<li class=\"fenzu_name\">\n" +
+                        "\t\t\t\t\t\t\t\t\t<input type=\"hidden\" class=\"uId\" value=\"1\">\n" +
+                        "\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"name\" name=\"group_name[]\" value=\""+confirms+"\" readonly=\"readonly\">\n" +
+                        "\t\t\t\t\t\t\t\t</li>\n" +
+                        "\t\t\t\t\t\t\t\t<li class=\"fenzu_number\">"+Numbers+"</li>\n" +
+                        "\t\t\t\t\t\t\t\t<li class=\"xiugaiGroup\" onclick=\"changeGroup(this)\">修改</li>\n" +
+                        "\t\t\t\t\t\t\t\t<li class=\"fenzu_del\" onclick=\"del_group(this)\">删除</li>\n" +
+                        "\t\t\t\t\t\t\t</ul>";
+                    $("#fenzuRow").append(uls);
+                    $("#caozuo").css("display","block");
+                    $(".group_alert").css("display","none");
+                }else{
+                    layer.msg("添加分组名称不可以为空！");
+                }
+                $(".group_input ").val("");
+
+            })
+        });
+    });
+    var intSwitch;
+    //引用开关layui
+    layui.use('form', function() {
+        var form = layui.form;
+        form.on('switch(brush)', function(data){
+//            console.log(data.elem.checked); //开关是否开启，true或者false
+            intSwitch=data.elem.checked;
+            if(data.elem.checked){
+                $("#brush").css("display","block");
+            }else{
+                $("#brush").css("display","none");
+            }
+
+        });
+    });
+    //点击修改
+    function changeGroup(data) {
+        console.log($(data).index())
+        $(".group_alert1").css("display","block");
+        //吧未修改值放入input框
+        $(".group_input1").val($(data).siblings().eq(0).children().eq(1).val());
+        $(".fenzu_number1").val($(data).siblings().eq(1).text());
+        //修改
+        $(".cancel_btn1").on("click",function () {
+            $(".group_alert1").css("display","none");
+        });
+        //提交
+        $(".confirm_btn1").on("click",function () {
+            $(".group_alert1").css("display","none");
+            var confirms = $(".group_input1 ").val();
+            //判断序号
+            if($(data).siblings().eq(1).text()==$(".fenzu_number1").val()){
+                $(data).siblings().eq(0).children().val(confirms);
+            }
+        })
+    }
+    //回显删除
+	function  del_groups(showDel,id) {
+        layer.alert('确定要删除么？', {
+            title: '删除确认',
+            closeBtn: 0,
+            anim: 1, //动画类型
+            btn: ['确定','取消'],
+            yes:function(index){
+                $.ajax({
+                    cache: true,
+                    type: "POST",
+                    url: ctx + "activity/hdGroup/remove",
+                    data: {
+                        "id":id
+                    },
+                    async : false,
+                    success: function(result) {
+                        console.log(result);
+                        if(result.code==500){
+                            layer.alert(result.msg);
+						}else{
+                            $(showDel).parents("ul").remove();
+                            //序号重置
+                            for(var i=0;i< $(".fenzu_number").length;i++){
+                                $(".fenzu_number").eq(i).text(i+1);
+                            }
+                            $("#clearfix").load(location.href+" #clearfix");
+                            layer.close(index)
+
+//                            window.location.reload()
+						}
+
+                    }
+                });
+            },
+            btn2:function(index){
+                layer.close(index);
+            }
+        });
+    }
+    //点击删除
+    function del_group(del) {
+        $(del).parents("ul").remove();
+        //序号重置
+        for(var i=0;i< $(".fenzu_number").length;i++){
+            $(".fenzu_number").eq(i).text(i+1);
+        }
+    }
+    //选手排序
+    $(".sort_option").on("click",function () {
+        $(this).addClass("option_case_active").siblings().removeClass("option_case_active");
+    })
+
+    function add() {
+        var groups = ""
+        //获取分组是否打开
+        var Switch="";
+        var grouping="";
+        console.log(kaiguan)
+        if(kaiguan){
+            //定义一个集合存入分组数据
+            var group=[];
+            for(var i=0;i<$(".name").length;i++){
+                group.push({id:$(".uId").eq(i).val(),groupName:$(".name").eq(i).val(),sort:$(".fenzu_number").eq(i).text()})
+            }
+				groups = JSON.stringify(group)
+			console.log(groups);
+        }
+        if(group!=null&&group!=""&&group!="default"){
+            Switch=true,grouping=1;
+        }else{
+            Switch=false,grouping=0;
+        }
+        //获取选手排序
+        var player=$(".option_case_active>input").val();
+        //获取音乐路径
+        var musicUrl=$("#default_music_link ").val();
+        //获取活动是否开放
+        var opens=$("input[name='opens']:checked").val();
+
+        //获取活动是否开启
+        var announcement =$("input[name='announcement']:checked").val();
+        //如果开启获取活动内容的值
+        if(announcement==1){
+            var event_announcements = $("#gonggao").val()
+        }
+        //获取报名审核模式
+        var examine = $("input[name='examine']:checked").val();
+        //投票设置
+        var toupiao_set=$("input[name='toupiao_set']:checked").val();
+        var txt_day_piao_Min="";
+        var txt_day_piao_Max="";
+        if(toupiao_set==1){
+            txt_day_piao_Min=$("#txt_day_piao").val();
+            txt_day_piao_Max=$("#txt_day_piaoMax").val();
+            if(txt_day_piao_Min>txt_day_piao_Max){
+                $("#txt_day_piaoMax").val("5");
+                layer.msg("最高票不能小于每天能投票数！")
+            }
+        }
+        if (toupiao_set==3){
+            txt_day_piao_Min=$("#txt_play_piao").val();
+        }
+        //防刷票
+        var ballotRigging=0;
+        var maxH="";
+        var maxD="";
+        var establish_piao="";
+        if(intSwitch==true){
+            ballotRigging=1
+            //选手每小时最多得到票
+            maxH=$("#ticket_input-H").val();
+            //选手每天最多得到票
+            maxD=$("#ticket_input-D").val();
+            establish_piao=$("#establish_piao").find("option:selected").text();
+        }
+//		虚拟浏览量
+        var unreal_num = $("#unreal_num").val();
+        //虚拟投票数
+        var unreal_votes = $("#unreal_votes").val();
+        //报名数
+        var unreal_sign_up=$("#unreal_sign_up").val();
+
+        var imgs =document.getElementsByClassName("imgs");
+
+        var b=[];
+        for(var i=0;i<imgs.length;i++){
+            b.push({img:imgs[i].src});
+        }
+        var pics = JSON.stringify(b)
+        var times =$("#test10").val();
+        var newTimes=times.split("~");
+        var newTimes0= new Date(Date.parse(newTimes[0].replace(/-/g, "/")))
+        var newTimes1= new Date(Date.parse(newTimes[1].replace(/-/g, "/")))
+        if(newTimes0>newTimes1){
+            layer.alert("时间填写错误，请仔细检查")
+        }else{
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: prefix + "/edit",
+                data: {
+                    "id":$("#id").val(),
+                    "extend1":$("#extend1").val(),
+                    "name":$("#name").val(),
+                    "start":$("#test10").val(),
+                    "pics":pics,
+                    "theme":1,
+                    "apply":$("input[name='sign_up_type']:checked").val(),
+                    "grouping":grouping,
+                    "groups":groups,
+                    "sort":player,
+                    "outsideChain":1,
+                    "music":musicUrl,
+                    "isAnnouncement":announcement,
+                    "announcement":event_announcements,
+                    "audit":examine,
+                    "sett":toupiao_set,
+                    "vote":txt_day_piao_Min,
+                    "maxVote":txt_day_piao_Max,
+                    "ballotRigging":ballotRigging,
+                    "hourMax":maxH,
+                    "dayMax":maxD,
+                    "verificationCode":establish_piao,
+                    "browse":unreal_num,
+                    "sumVote":unreal_votes,
+                    "enroll":unreal_sign_up,
+                    "introduction":$('.summernote').summernote('code'),
+                    "extend3":opens,
+                    "extend2":$("#txt_day_piaos").val()
+                },
+                async : false,
+                error : function(request) {
+                    $.modal.alertError("系统错误");
+                },
+                success : function(data) {
+                    $.operate.successCallback(data);
+                }
+            })
+        }
+    }
+
+</script>
+
+</html>

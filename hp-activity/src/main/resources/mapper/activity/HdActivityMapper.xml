@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.activity.mapper.HdActivityMapper">
+    
+    <resultMap type="HdActivity" id="HdActivityResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="start"    column="start"    />
+        <result property="end"    column="end"    />
+        <result property="introduction"    column="introduction"    />
+        <result property="cover"    column="cover"    />
+        <result property="theme"    column="theme"    />
+        <result property="apply"    column="apply"    />
+        <result property="grouping"    column="grouping"    />
+        <result property="sort"    column="sort"    />
+        <result property="outsideChain"    column="outside_chain"    />
+        <result property="music"    column="music"    />
+        <result property="isAnnouncement"    column="is_announcement"    />
+        <result property="announcement"    column="announcement"    />
+        <result property="audit"    column="audit"    />
+        <result property="sett"    column="sett"    />
+        <result property="vote"    column="vote"    />
+        <result property="maxVote"    column="max_vote"    />
+        <result property="ballotRigging"    column="ballot_rigging"    />
+        <result property="hourMax"    column="hour_max"    />
+        <result property="dayMax"    column="day_max"    />
+        <result property="verificationCode"    column="verification_code"    />
+        <result property="browse"    column="browse"    />
+        <result property="sumVote"    column="sum_vote"    />
+        <result property="enroll"    column="enroll"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="extend1"    column="extend1"    />
+        <result property="extend2"    column="extend2"    />
+        <result property="extend3"    column="extend3"    />
+        <result property="extend4"    column="extend4"    />
+        <result property="extend5"    column="extend5"    />
+        <result property="players"    column="players"    />
+    </resultMap>
+	
+	<sql id="selectHdActivityVo">
+        select id, name, start, end, introduction, cover, theme, apply, grouping, sort, outside_chain, music, is_announcement, announcement, audit, sett, vote, max_vote, ballot_rigging, hour_max, day_max, verification_code, browse, sum_vote, enroll, create_user, create_time, update_user, update_time, extend1, extend2, extend3, extend4, extend5 from hd_activity
+    </sql>
+	
+    <select id="selectHdActivityList" parameterType="HdActivity" resultMap="HdActivityResult">
+        <include refid="selectHdActivityVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="name != null  and name != '' "> and name like concat('%', #{name}, '%')</if>
+             <if test="start != null "> and start = #{start}</if>
+             <if test="end != null "> and end = #{end}</if>
+             <if test="introduction != null  and introduction != '' "> and introduction = #{introduction}</if>
+             <if test="cover != null "> and cover = #{cover}</if>
+             <if test="theme != null "> and theme = #{theme}</if>
+             <if test="apply != null "> and apply = #{apply}</if>
+             <if test="grouping != null "> and grouping = #{grouping}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="outsideChain != null "> and outside_chain = #{outsideChain}</if>
+             <if test="music != null  and music != '' "> and music = #{music}</if>
+             <if test="isAnnouncement != null "> and is_announcement = #{isAnnouncement}</if>
+             <if test="announcement != null  and announcement != '' "> and announcement = #{announcement}</if>
+             <if test="audit != null "> and audit = #{audit}</if>
+             <if test="sett != null "> and sett = #{sett}</if>
+             <if test="vote != null "> and vote = #{vote}</if>
+             <if test="maxVote != null "> and max_vote = #{maxVote}</if>
+             <if test="ballotRigging != null "> and ballot_rigging = #{ballotRigging}</if>
+             <if test="hourMax != null "> and hour_max = #{hourMax}</if>
+             <if test="dayMax != null "> and day_max = #{dayMax}</if>
+             <if test="verificationCode != null "> and verification_code = #{verificationCode}</if>
+             <if test="browse != null "> and browse = #{browse}</if>
+             <if test="sumVote != null "> and sum_vote = #{sumVote}</if>
+             <if test="enroll != null "> and enroll = #{enroll}</if>
+             <if test="createUser != null "> and create_user = #{createUser}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateUser != null "> and update_user = #{updateUser}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="extend1 != null  and extend1 != '' "> and extend1 = #{extend1}</if>
+             <if test="extend2 != null  and extend2 != '' "> and extend2 = #{extend2}</if>
+             <if test="extend3 != null  and extend3 != '' "> and extend3 = #{extend3}</if>
+             <if test="extend4 != null  and extend4 != '' "> and extend4 = #{extend4}</if>
+             <if test="extend5 != null  and extend5 != '' "> and extend5 = #{extend5}</if>
+         </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectHotActivity" resultMap="HdActivityResult">
+      SELECT * FROM hd_activity WHERE extend1 = 1 AND extend3 = 1 ORDER BY browse DESC LIMIT 10
+--        SELECT * FROM hd_activity ORDER BY browse DESC
+    </select>
+    
+    <select id="selectHdActivityById" parameterType="Integer" resultMap="HdActivityResult">
+        <include refid="selectHdActivityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertHdActivity" parameterType="HdActivity">
+        insert into hd_activity
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="start != null  ">start,</if>
+			<if test="end != null  ">end,</if>
+			<if test="introduction != null  and introduction != ''  ">introduction,</if>
+			<if test="cover != null  ">cover,</if>
+			<if test="theme != null  ">theme,</if>
+			<if test="apply != null  ">apply,</if>
+			<if test="grouping != null  ">grouping,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="outsideChain != null  ">outside_chain,</if>
+			<if test="music != null  and music != ''  ">music,</if>
+			<if test="isAnnouncement != null  ">is_announcement,</if>
+			<if test="announcement != null  and announcement != ''  ">announcement,</if>
+			<if test="audit != null  ">audit,</if>
+			<if test="sett != null  ">sett,</if>
+			<if test="vote != null  ">vote,</if>
+			<if test="maxVote != null  ">max_vote,</if>
+			<if test="ballotRigging != null  ">ballot_rigging,</if>
+			<if test="hourMax != null  ">hour_max,</if>
+			<if test="dayMax != null  ">day_max,</if>
+			<if test="verificationCode != null  ">verification_code,</if>
+			<if test="browse != null  ">browse,</if>
+			<if test="sumVote != null  ">sum_vote,</if>
+			<if test="enroll != null  ">enroll,</if>
+			<if test="createUser != null  ">create_user,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateUser != null  ">update_user,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="extend1 != null  and extend1 != ''  ">extend1,</if>
+			<if test="extend2 != null    ">extend2,</if>
+			<if test="extend3 != null">extend3,</if>
+			<if test="extend4 != null  and extend4 != ''  ">extend4,</if>
+			<if test="extend5 != null  and extend5 != ''  ">extend5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="start != null  ">#{start},</if>
+			<if test="end != null  ">#{end},</if>
+			<if test="introduction != null  and introduction != ''  ">#{introduction},</if>
+			<if test="cover != null  ">#{cover},</if>
+			<if test="theme != null  ">#{theme},</if>
+			<if test="apply != null  ">#{apply},</if>
+			<if test="grouping != null  ">#{grouping},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="outsideChain != null  ">#{outsideChain},</if>
+			<if test="music != null  and music != ''  ">#{music},</if>
+			<if test="isAnnouncement != null  ">#{isAnnouncement},</if>
+			<if test="announcement != null  and announcement != ''  ">#{announcement},</if>
+			<if test="audit != null  ">#{audit},</if>
+			<if test="sett != null  ">#{sett},</if>
+			<if test="vote != null  ">#{vote},</if>
+			<if test="maxVote != null  ">#{maxVote},</if>
+			<if test="ballotRigging != null  ">#{ballotRigging},</if>
+			<if test="hourMax != null  ">#{hourMax},</if>
+			<if test="dayMax != null  ">#{dayMax},</if>
+			<if test="verificationCode != null  ">#{verificationCode},</if>
+			<if test="browse != null  ">#{browse},</if>
+			<if test="sumVote != null  ">#{sumVote},</if>
+			<if test="enroll != null  ">#{enroll},</if>
+			<if test="createUser != null  ">#{createUser},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateUser != null  ">#{updateUser},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="extend1 != null  and extend1 != ''  ">#{extend1},</if>
+			<if test="extend2 != null">#{extend2},</if>
+			<if test="extend3 != null">#{extend3},</if>
+			<if test="extend4 != null  and extend4 != ''  ">#{extend4},</if>
+			<if test="extend5 != null  and extend5 != ''  ">#{extend5},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateHdActivity" parameterType="HdActivity">
+        update hd_activity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="start != null  ">start = #{start},</if>
+            <if test="end != null  ">end = #{end},</if>
+            <if test="introduction != null  and introduction != ''  ">introduction = #{introduction},</if>
+            <if test="cover != null  ">cover = #{cover},</if>
+            <if test="theme != null  ">theme = #{theme},</if>
+            <if test="apply != null  ">apply = #{apply},</if>
+            <if test="grouping != null  ">grouping = #{grouping},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="outsideChain != null  ">outside_chain = #{outsideChain},</if>
+            <if test="music != null  and music != ''  ">music = #{music},</if>
+            <if test="isAnnouncement != null  ">is_announcement = #{isAnnouncement},</if>
+            <if test="announcement != null  and announcement != ''  ">announcement = #{announcement},</if>
+            <if test="audit != null  ">audit = #{audit},</if>
+            <if test="sett != null  ">sett = #{sett},</if>
+            <if test="vote != null  ">vote = #{vote},</if>
+            <if test="maxVote != null  ">max_vote = #{maxVote},</if>
+            <if test="ballotRigging != null  ">ballot_rigging = #{ballotRigging},</if>
+            <if test="hourMax != null  ">hour_max = #{hourMax},</if>
+            <if test="dayMax != null  ">day_max = #{dayMax},</if>
+            <if test="verificationCode != null  ">verification_code = #{verificationCode},</if>
+            <if test="browse != null  ">browse = #{browse},</if>
+            <if test="sumVote != null  ">sum_vote = #{sumVote},</if>
+            <if test="enroll != null  ">enroll = #{enroll},</if>
+            <if test="createUser != null  ">create_user = #{createUser},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateUser != null  ">update_user = #{updateUser},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="extend1 != null  ">extend1 = #{extend1},</if>
+            <if test="extend2 != null">extend2 = #{extend2},</if>
+            <if test="extend3 != null">extend3 = #{extend3},</if>
+            <if test="extend4 != null  and extend4 != ''  ">extend4 = #{extend4},</if>
+            <if test="extend5 != null  and extend5 != ''  ">extend5 = #{extend5},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteHdActivityById" parameterType="Integer">
+        delete from hd_activity where id = #{id}
+    </delete>
+	
+    <delete id="deleteHdActivityByIds" parameterType="String">
+        delete from hd_activity where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectMaxId" resultType="int">
+        SELECT MAX(id) FROM hd_activity
+    </select>
+
+    <update id="updateTicket">
+        update hd_activity SET sum_vote = sum_vote+1 WHERE id = #{id}
+    </update>
+
+    <select id="getHotActivity" resultType="int">
+        SELECT id FROM hd_activity WHERE extend1 = 1 ORDER BY browse DESC LIMIT 1
+    </select>
+</mapper>

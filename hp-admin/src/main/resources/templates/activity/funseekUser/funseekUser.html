@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								注册账号：<input type="text" name="userAccount"/>
+							</li>
+
+							<li>
+								用户昵称：<input type="text" name="nickname"/>
+							</li>
+
+							<li>
+								微信账号：<input type="text" name="wechatAccount"/>
+							</li>
+
+							<li>
+								微信昵称：<input type="text" name="wechatNickname"/>
+							</li>
+
+							<li>
+								账号状态：<select name="accountState" th:with="type=${@dict.getType('hd_account_status')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+
+							<li style="width: 100%;text-align: center">
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <!--<div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.addFull()" shiro:hasPermission="activity:funseekUser:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.editFull()" shiro:hasPermission="activity:funseekUser:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="activity:funseekUser:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="activity:funseekUser:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>-->
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('activity:funseekUser:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('activity:funseekUser:remove')}]];
+        var prefix = ctx + "activity/funseekUser";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "用户",
+				search: false,
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'id', 
+					title : '主键',
+					visible: false
+				},
+				{
+					field : 'userAccount', 
+					title : '注册账号',
+					sortable: false
+				},
+				/*{
+					field : 'userPassword', 
+					title : '登录密码',
+					sortable: false
+				},*/
+				{
+					field : 'nickname', 
+					title : '用户昵称',
+					sortable: false
+				},
+				{
+					field : 'wechatAccount', 
+					title : '微信账号',
+					sortable: false
+				},
+				{
+					field : 'wechatNickname', 
+					title : '微信昵称',
+					sortable: false
+				},
+				{
+					field : 'registAddress', 
+					title : '注册时的所在地',
+					sortable: false
+				},
+				{
+					field : 'accountBalance', 
+					title : '账户余额',
+					sortable: false
+				},
+				{
+					field : 'accountState', 
+					title : '账号状态',
+					sortable: false,
+                    formatter: function(value, row, index) {
+                        if(value == 1){
+                            return "正常";
+                        }else if(value == 2){
+                            return "暂时禁用";
+                        }else if(value == 3){
+                            return "永久禁用";
+                        }else{
+                            return "用户已销户";
+                        }
+                    }
+				},
+				{
+					field : 'accountLimitReason', 
+					title : '禁用原因',
+					sortable: false
+				},
+				{
+					field : 'accountLimitTime', 
+					title : '禁用时长',
+					sortable: false
+				},
+				{
+					field : 'lastLoginTime', 
+					title : '最后登录时间',
+					sortable: false
+				},
+				{
+					field : 'lastLoginAddress', 
+					title : '最后登录地址',
+					sortable: false
+				},
+				/*{
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				},
+				{
+					field : 'updateTime', 
+					title : '更新时间',
+					sortable: true
+				}*//*,
+				{
+					field : 'extend1', 
+					title : '扩展字段',
+					sortable: true
+				},
+				{
+					field : 'extend2', 
+					title : '扩展字段2',
+					sortable: true
+				},
+				{
+					field : 'extend3', 
+					title : '扩展字段3',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }*/]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.activity.mapper.FunseekUserOrderMapper">
+    
+    <resultMap type="FunseekUserOrder" id="FunseekUserOrderResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="totalFee"    column="total_fee"    />
+        <result property="payWay"    column="pay_way"    />
+        <result property="orderState"    column="order_state"    />
+        <result property="payState"    column="pay_state"    />
+        <result property="notifyState"    column="notify_state"    />
+        <result property="notifyError"    column="notify_error"    />
+        <result property="refundState"    column="refund_state"    />
+        <result property="refundError"    column="refund_error"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="extend1"    column="extend1"    />
+        <result property="extend2"    column="extend2"    />
+        <result property="extend3"    column="extend3"    />
+        <result property="nickname"      column="nickname"  />
+    </resultMap>
+	
+	<sql id="selectFunseekUserOrderVo">
+        select id, order_id, user_id, total_fee, pay_way, order_state, pay_state, notify_state, notify_error, refund_state, refund_error, create_time, update_time, extend1, extend2, extend3 from funseek_user_order
+    </sql>
+	
+    <select id="selectFunseekUserOrderList" parameterType="FunseekUserOrder" resultMap="FunseekUserOrderResult">
+        select uo.*,u.nickname from funseek_user_order uo
+        left join funseek_user u on uo.user_id = u.id
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="orderId != null  and orderId != '' "> and order_id like concat('%', #{orderId}, '%')</if>
+             <if test="nickname != null and nickname != '' "> and nickname like concat('%', #{nickname}, '%')</if>
+             <if test="userId != null "> and user_id = #{userId}</if>
+             <if test="totalFee != null "> and total_fee = #{totalFee}</if>
+             <if test="payWay != null  and payWay != '' "> and pay_way = #{payWay}</if>
+             <if test="orderState != null  and orderState != '' "> and order_state = #{orderState}</if>
+             <if test="payState != null  and payState != '' "> and pay_state = #{payState}</if>
+             <if test="notifyState != null  and notifyState != '' "> and notify_state = #{notifyState}</if>
+             <if test="notifyError != null  and notifyError != '' "> and notify_error = #{notifyError}</if>
+             <if test="refundState != null  and refundState != '' "> and refund_state = #{refundState}</if>
+             <if test="refundError != null  and refundError != '' "> and refund_error = #{refundError}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="extend1 != null  and extend1 != '' "> and extend1 = #{extend1}</if>
+             <if test="extend2 != null  and extend2 != '' "> and extend2 = #{extend2}</if>
+             <if test="extend3 != null  and extend3 != '' "> and extend3 = #{extend3}</if>
+         </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectFunseekUserOrderById" parameterType="Long" resultMap="FunseekUserOrderResult">
+        <include refid="selectFunseekUserOrderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFunseekUserOrder" parameterType="FunseekUserOrder">
+        insert into funseek_user_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="orderId != null  and orderId != ''  ">order_id,</if>
+			<if test="userId != null  ">user_id,</if>
+			<if test="totalFee != null  ">total_fee,</if>
+			<if test="payWay != null  and payWay != ''  ">pay_way,</if>
+			<if test="orderState != null  and orderState != ''  ">order_state,</if>
+			<if test="payState != null  and payState != ''  ">pay_state,</if>
+			<if test="notifyState != null  and notifyState != ''  ">notify_state,</if>
+			<if test="notifyError != null  and notifyError != ''  ">notify_error,</if>
+			<if test="refundState != null  and refundState != ''  ">refund_state,</if>
+			<if test="refundError != null  and refundError != ''  ">refund_error,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="extend1 != null  and extend1 != ''  ">extend1,</if>
+			<if test="extend2 != null  and extend2 != ''  ">extend2,</if>
+			<if test="extend3 != null  and extend3 != ''  ">extend3,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="orderId != null  and orderId != ''  ">#{orderId},</if>
+			<if test="userId != null  ">#{userId},</if>
+			<if test="totalFee != null  ">#{totalFee},</if>
+			<if test="payWay != null  and payWay != ''  ">#{payWay},</if>
+			<if test="orderState != null  and orderState != ''  ">#{orderState},</if>
+			<if test="payState != null  and payState != ''  ">#{payState},</if>
+			<if test="notifyState != null  and notifyState != ''  ">#{notifyState},</if>
+			<if test="notifyError != null  and notifyError != ''  ">#{notifyError},</if>
+			<if test="refundState != null  and refundState != ''  ">#{refundState},</if>
+			<if test="refundError != null  and refundError != ''  ">#{refundError},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="extend1 != null  and extend1 != ''  ">#{extend1},</if>
+			<if test="extend2 != null  and extend2 != ''  ">#{extend2},</if>
+			<if test="extend3 != null  and extend3 != ''  ">#{extend3},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateFunseekUserOrder" parameterType="FunseekUserOrder">
+        update funseek_user_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  ">user_id = #{userId},</if>
+            <if test="totalFee != null  ">total_fee = #{totalFee},</if>
+            <if test="payWay != null  and payWay != ''  ">pay_way = #{payWay},</if>
+            <if test="orderState != null  and orderState != ''  ">order_state = #{orderState},</if>
+            <if test="payState != null  and payState != ''  ">pay_state = #{payState},</if>
+            <if test="notifyState != null  and notifyState != ''  ">notify_state = #{notifyState},</if>
+            <if test="notifyError != null  and notifyError != ''  ">notify_error = #{notifyError},</if>
+            <if test="refundState != null  and refundState != ''  ">refund_state = #{refundState},</if>
+            <if test="refundError != null  and refundError != ''  ">refund_error = #{refundError},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="extend1 != null  and extend1 != ''  ">extend1 = #{extend1},</if>
+            <if test="extend2 != null  and extend2 != ''  ">extend2 = #{extend2},</if>
+            <if test="extend3 != null  and extend3 != ''  ">extend3 = #{extend3},</if>
+        </trim>
+        where order_id = #{orderId}
+    </update>
+
+	<delete id="deleteFunseekUserOrderById" parameterType="Long">
+        delete from funseek_user_order where id = #{id}
+    </delete>
+	
+    <delete id="deleteFunseekUserOrderByIds" parameterType="String">
+        delete from funseek_user_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

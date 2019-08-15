@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-hdGift-edit" th:object="${hdGift}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">礼物名称：</label>
+				<div class="col-sm-8">
+					<input id="name" name="name" th:field="*{name}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">礼物图标：</label>
+				<div class="col-sm-8">
+					<!--<input id="icon" name="icon" th:field="*{icon}" class="form-control" type="text">-->
+					<img th:src="*{icon}">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">礼物价格：</label>
+				<div class="col-sm-8">
+					<input id="price" name="price" th:field="*{price}" class="form-control" type="text" onkeyup="validationNumber(this,2)">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">票数：</label>
+				<div class="col-sm-8">
+					<input id="ticket" name="ticket" th:field="*{ticket}" class="form-control" type="text" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+						   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "activity/hdGift";
+		$("#form-hdGift-edit").validate({
+			rules:{
+                name:{
+					required:true,
+				},
+                price:{
+                    required:true,
+                },
+                ticket:{
+                    required:true,
+                },
+			}
+		});
+
+        function validationNumber(e, num) {
+            var regu = /^[0-9]+\.?[0-9]*$/;
+            if (e.value != "") {
+                if (!regu.test(e.value)) {
+                    e.value = e.value.substring(0, 0);
+                    e.focus();
+                } else {
+                    if (num == 0) {
+                        if (e.value.indexOf('.') > -1) {
+                            e.value = e.value.substring(0, e.value.length - 1);
+                            e.focus();
+                        }
+                    }
+                    if (e.value.indexOf('.') > -1) {
+                        if (e.value.split('.')[1].length > num) {
+                            e.value = e.value.substring(0, e.value.length - 1);
+                            e.focus();
+                        }
+                    }
+
+                }
+            }
+        }
+
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-hdGift-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

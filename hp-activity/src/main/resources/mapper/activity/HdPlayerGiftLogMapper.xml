@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.activity.mapper.HdPlayerGiftLogMapper">
+    
+    <resultMap type="HdPlayerGiftLog" id="HdPlayerGiftLogResult">
+        <result property="id"    column="id"    />
+        <result property="playerId"    column="player_id"    />
+        <result property="playerName"    column="player_name"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="extend1"    column="extend1"    />
+        <result property="extend2"    column="extend2"    />
+        <result property="extend3"    column="extend3"    />
+        <result property="extend4"    column="extend4"    />
+        <result property="extend5"    column="extend5"    />
+        <result property="giftId"    column="gift_id"    />
+        <result property="giftName"    column="gift_name"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="amount"    column="amount"    />
+        <result property="ticket"    column="ticket"    />
+        <result property="activityId"    column="activity_id"    />
+        <result property="zps"    column="zps"    />
+    </resultMap>
+	
+	<sql id="selectHdPlayerGiftLogVo">
+        select id, player_id, create_user, create_time, update_user, update_time, extend1, extend2, extend3, extend4, extend5, gift_id, quantity, amount, ticket from hd_player_gift_log
+    </sql>
+	
+    <select id="selectHdPlayerGiftLogList" parameterType="HdPlayerGiftLog" resultMap="HdPlayerGiftLogResult">
+        SELECT a.id, b. NAME player_name, c. NAME gift_name, a.quantity, a.amount, a.ticket, a.create_time
+        FROM hd_player_gift_log a LEFT JOIN hd_player b ON a.player_id = b.id
+        LEFT JOIN hd_gift c ON a.gift_id = c.id
+        <where>
+            <if test="activityId != null "> and b.activity_id = #{activityId}</if>
+            <if test="id != null "> and id = #{id}</if>
+             <if test="playerName != null and playerName!= '' "> and b. NAME like concat('%', #{playerName}, '%')</if>
+             <if test="createUser != null "> and create_user = #{createUser}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateUser != null "> and update_user = #{updateUser}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="extend1 != null  and extend1 != '' "> and extend1 = #{extend1}</if>
+             <if test="extend2 != null  and extend2 != '' "> and extend2 = #{extend2}</if>
+             <if test="extend3 != null  and extend3 != '' "> and extend3 = #{extend3}</if>
+             <if test="extend4 != null  and extend4 != '' "> and extend4 = #{extend4}</if>
+             <if test="extend5 != null  and extend5 != '' "> and extend5 = #{extend5}</if>
+             <if test="giftId != null "> and gift_id = #{giftId}</if>
+             <if test="quantity != null "> and quantity = #{quantity}</if>
+             <if test="amount != null "> and amount = #{amount}</if>
+             <if test="ticket != null "> and ticket = #{ticket}</if>
+         </where>
+    </select>
+    
+    <select id="selectHdPlayerGiftLogById" parameterType="Integer" resultMap="HdPlayerGiftLogResult">
+        <include refid="selectHdPlayerGiftLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertHdPlayerGiftLog" parameterType="HdPlayerGiftLog">
+        insert into hd_player_gift_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="playerId != null  ">player_id,</if>
+			<if test="createUser != null  ">create_user,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateUser != null  ">update_user,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="extend1 != null  and extend1 != ''  ">extend1,</if>
+			<if test="extend2 != null  and extend2 != ''  ">extend2,</if>
+			<if test="extend3 != null  and extend3 != ''  ">extend3,</if>
+			<if test="extend4 != null  and extend4 != ''  ">extend4,</if>
+			<if test="extend5 != null  and extend5 != ''  ">extend5,</if>
+			<if test="giftId != null  ">gift_id,</if>
+			<if test="quantity != null  ">quantity,</if>
+			<if test="amount != null  ">amount,</if>
+			<if test="ticket != null  ">ticket,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="playerId != null  ">#{playerId},</if>
+			<if test="createUser != null  ">#{createUser},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateUser != null  ">#{updateUser},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="extend1 != null  and extend1 != ''  ">#{extend1},</if>
+			<if test="extend2 != null  and extend2 != ''  ">#{extend2},</if>
+			<if test="extend3 != null  and extend3 != ''  ">#{extend3},</if>
+			<if test="extend4 != null  and extend4 != ''  ">#{extend4},</if>
+			<if test="extend5 != null  and extend5 != ''  ">#{extend5},</if>
+			<if test="giftId != null  ">#{giftId},</if>
+			<if test="quantity != null  ">#{quantity},</if>
+			<if test="amount != null  ">#{amount},</if>
+			<if test="ticket != null  ">#{ticket},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateHdPlayerGiftLog" parameterType="HdPlayerGiftLog">
+        update hd_player_gift_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="playerId != null  ">player_id = #{playerId},</if>
+            <if test="createUser != null  ">create_user = #{createUser},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateUser != null  ">update_user = #{updateUser},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="extend1 != null  and extend1 != ''  ">extend1 = #{extend1},</if>
+            <if test="extend2 != null  and extend2 != ''  ">extend2 = #{extend2},</if>
+            <if test="extend3 != null  and extend3 != ''  ">extend3 = #{extend3},</if>
+            <if test="extend4 != null  and extend4 != ''  ">extend4 = #{extend4},</if>
+            <if test="extend5 != null  and extend5 != ''  ">extend5 = #{extend5},</if>
+            <if test="giftId != null  ">gift_id = #{giftId},</if>
+            <if test="quantity != null  ">quantity = #{quantity},</if>
+            <if test="amount != null  ">amount = #{amount},</if>
+            <if test="ticket != null  ">ticket = #{ticket},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteHdPlayerGiftLogById" parameterType="Integer">
+        delete from hd_player_gift_log where id = #{id}
+    </delete>
+	
+    <delete id="deleteHdPlayerGiftLogByIds" parameterType="String">
+        delete from hd_player_gift_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectHdPlayerGiftlist" parameterType="HdPlayerGiftLog" resultMap="HdPlayerGiftLogResult">
+        SELECT *,SUM(ticket) zps FROM hd_player_gift_log WHERE player_id = #{playerId} GROUP BY extend1 order by zps desc
+    </select>
+</mapper>

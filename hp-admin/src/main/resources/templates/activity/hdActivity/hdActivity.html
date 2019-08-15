@@ -1,0 +1,364 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								活动名称：<input type="text" name="name"/>
+							</li>
+<!--
+							<li>
+								活动开始时间：<input type="text" name="start"/>
+							</li>
+
+							<li>
+								活动结束时间：<input type="text" name="end"/>
+							</li>
+
+							<li>
+								活动介绍：<input type="text" name="introduction"/>
+							</li>
+
+							<li>
+								活动封面（1图片，2视频）：<input type="text" name="cover"/>
+							</li>
+
+							<li>
+								页面样式主题：<input type="text" name="theme"/>
+							</li>
+
+							<li>
+								是否允许报名（0否1是）：<input type="text" name="apply"/>
+							</li>
+
+							<li>
+								是否有分组（0否1是）：<input type="text" name="grouping"/>
+							</li>
+
+							<li>
+								排序规则：<input type="text" name="sort"/>
+							</li>
+
+							<li>
+								背景音乐是否为外链（0否1是）：<input type="text" name="outsideChain"/>
+							</li>
+
+							<li>
+								音乐地址：<input type="text" name="music"/>
+							</li>
+
+							<li>
+								是否启用活动公告：<input type="text" name="isAnnouncement"/>
+							</li>
+
+							<li>
+								活动公告内容：<input type="text" name="announcement"/>
+							</li>
+
+							<li>
+								报名审核（0否1需要）：<input type="text" name="audit"/>
+							</li>
+
+							<li>
+								投票设置：<input type="text" name="set"/>
+							</li>
+
+							<li>
+								一个微信号每天能投票数：<input type="text" name="vote"/>
+							</li>
+
+							<li>
+								一个微信号该活动最多投票数：<input type="text" name="maxVote"/>
+							</li>
+
+							<li>
+								防刷票（0不开启，1开启）：<input type="text" name="ballotRigging"/>
+							</li>
+
+							<li>
+								选手每小时最高得票数：<input type="text" name="hourMax"/>
+							</li>
+
+							<li>
+								选手每天最高得票数：<input type="text" name="dayMax"/>
+							</li>
+
+							<li>
+								投票时是否有验证码（0否1是）：<input type="text" name="verificationCode"/>
+							</li>
+
+							<li>
+								浏览量：<input type="text" name="browse"/>
+							</li>
+
+							<li>
+								投票数：<input type="text" name="sumVote"/>
+							</li>
+
+							<li>
+								报名数：<input type="text" name="enroll"/>
+							</li>
+
+							<li>
+								创建人员编号：<input type="text" name="createUser"/>
+							</li>
+
+							<li>
+								创建时间：<input type="text" name="createTime"/>
+							</li>
+
+							<li>
+								修改人员编号：<input type="text" name="updateUser"/>
+							</li>
+
+							<li>
+								修改时间：<input type="text" name="updateTime"/>
+							</li>
+
+							<li>
+								：<input type="text" name="extend1"/>
+							</li>
+
+							<li>
+								：<input type="text" name="extend2"/>
+							</li>
+
+							<li>
+								：<input type="text" name="extend3"/>
+							</li>
+
+							<li>
+								：<input type="text" name="extend4"/>
+							</li>
+
+							<li>
+								：<input type="text" name="extend5"/>
+							</li>-->
+
+							<li style="width: 100%;text-align: center">
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.addFull()" shiro:hasPermission="activity:hdActivity:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.editFull()" shiro:hasPermission="activity:hdActivity:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<!--<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="activity:hdActivity:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>-->
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+				<div class="social-share1" style="text-align:center; display:none;" id="shareDiv">
+					<img id="testimg" style="float:right;cursor:pointer" alt="" width="300" height="300"/>
+				</div>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('activity:hdActivity:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('activity:hdActivity:remove')}]];
+        var playerFlag = [[${@permission.hasPermi('activity:hdActivity:player')}]];
+        var rankingFlag = [[${@permission.hasPermi('activity:hdActivity:ranking')}]];
+        var giftFlag = [[${@permission.hasPermi('activity:hdActivity:gift')}]];
+        var prefix = ctx + "activity/hdActivity";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                closeUrl: prefix + "/close",
+                unfoldUrl: prefix + "/unfold",
+				exportUrl: prefix + "/export",
+                playerUrl: prefix + "/player/{id}",
+                rankingUrl: prefix + "/poll/{id}",
+                giftUrl: prefix + "/gift/{id}",
+                modalName: "活动",
+				search: false,
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'id', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'name', 
+					title : '活动名称',
+					sortable: true
+				},
+				{
+					field : 'start', 
+					title : '活动开始时间',
+					sortable: true
+				},
+				{
+					field : 'end', 
+					title : '活动结束时间',
+					sortable: true
+				},
+                    {
+                        field : 'players',
+                        title : '选手数',
+                        sortable: true
+                    },
+				{
+					field : 'browse', 
+					title : '浏览量',
+					sortable: true
+				},
+				{
+					field : 'sumVote', 
+					title : '总票数',
+					sortable: true
+				},
+				{
+					field : 'enroll', 
+					title : '报名数',
+					sortable: true
+				},
+				{
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				},
+                    {
+                        field : 'extend1',
+                        title : '活动状态',
+                        formatter : function(value){
+                            switch (value) {
+                                case 1:
+                                    return '开启';
+                                    break;
+
+                                case 0:
+                                    return '关闭';
+                                    break;
+
+                                case -1:
+                                    return '结束';
+                                    break;
+                            }
+                        }
+                    },
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+//		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + playerFlag + '" href="#" onclick="player('+row.id+')"><i class="fa fa-user-circle"></i>选手</a> ');
+                        actions.push('<a class="btn btn-warning btn-xs ' + rankingFlag + '" href="#" onclick="ranking('+row.id+')"><i class="fa fa-signal"></i> 排行</a> ');
+                        actions.push('<a class="btn btn-primary btn-xs ' + giftFlag + '" href="#" onclick="gift('+row.id+')"><i class="fa fa-credit-card"></i>资金流水</a> ');
+                        actions.push('<a class="btn btn-info btn-xs " href="#" onclick="QRcode('+row.id+')"><i class="fa fa-qrcode"></i>微信二维码</a> ');
+                        if(row.extend1==1){
+                            actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="shut('+row.id+')"><i class="fa fa-remove"></i>关闭活动</a>');
+                        }else if(row.extend1==0){
+                            actions.push('<a  class="btn btn-primary btn-xs ' + removeFlag + '" href="#" onclick="unfold('+row.id+')"><i class="fa fa-remove"></i>开启活动</a>');
+                        }else if(row.extend1==-1){
+
+                        }
+                        return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+        function player(id) {
+            $.ajax({
+				url:prefix +"/list",
+				type:"POST",
+				data:{"id":id},
+                dataType:"JSON",
+				async:false,
+                success: function(data){
+                    var url = $.common.isEmpty(id) ? $.table._option.playerUrl.replace("{id}", id) : $.table._option.playerUrl.replace("{id}", id);
+                    createMenuItem(url,data.rows[0].name+"的选手");
+				}
+            });
+
+        }
+
+        function ranking(id) {
+            $.ajax({
+                url:prefix +"/list",
+                type:"POST",
+                data:{"id":id},
+                dataType:"JSON",
+                async:false,
+                success: function(data){
+            var url = $.common.isEmpty(id) ? $.table._option.rankingUrl.replace("{id}", id) : $.table._option.rankingUrl.replace("{id}", id);
+            createMenuItem(url,data.rows[0].name+"的排行榜");
+                }
+            });
+
+        }
+
+        function gift(id) {
+            $.ajax({
+                url:prefix +"/list",
+                type:"POST",
+                data:{"id":id},
+                dataType:"JSON",
+                async:false,
+                success: function(data){
+            var url = $.common.isEmpty(id) ? $.table._option.giftUrl.replace("{id}", id) : $.table._option.giftUrl.replace("{id}", id);
+            createMenuItem(url,data.rows[0].name+"的礼物流水");
+                }
+            });
+        }
+
+        function shut(id){
+            $.modal.confirm("确定关闭该活动吗？", function() {
+                var url = $.common.isEmpty(id) ? $.table._option.closeUrl : $.table._option.closeUrl.replace("{id}", id);
+                var data = { "id": id };
+                $.operate.submit(url, "post", "json", data);
+            });
+		}
+
+        function unfold(id){
+            $.modal.confirm("确定开启该活动吗？", function() {
+                var url = $.common.isEmpty(id) ? $.table._option.unfoldUrl : $.table._option.unfoldUrl.replace("{id}", id);
+                var data = { "id": id };
+                $.operate.submit(url, "post", "json", data);
+            });
+        }
+
+        function QRcode(id){
+            $("#testimg").attr("src","http://qr.liantu.com/api.php?text=https://mp.zymcloud.com/hp-hd/?actId=" + id);
+            layer.open({
+                type: 1,
+                skin: '', //样式类名
+                title:false,
+                offset: 'auto',
+                area: ['300px', '300px'], //宽高
+                closeBtn: 1, //不显示关闭按钮
+                shade: 0,
+                anim: 2,
+                shadeClose: true, //开启遮罩关闭
+                content: $("#shareDiv")
+            });
+		}
+    </script>
+</body>
+</html>

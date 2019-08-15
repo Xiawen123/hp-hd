@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.activity.mapper.HdCoverMapper">
+    
+    <resultMap type="HdCover" id="HdCoverResult">
+        <result property="id"    column="id"    />
+        <result property="activityId"    column="activity_id"    />
+        <result property="url"    column="url"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="extend1"    column="extend1"    />
+        <result property="extend2"    column="extend2"    />
+        <result property="extend3"    column="extend3"    />
+        <result property="extend4"    column="extend4"    />
+        <result property="extend5"    column="extend5"    />
+    </resultMap>
+	
+	<sql id="selectHdCoverVo">
+        select id, activity_id, url, create_user, create_time, update_user, update_time, extend1, extend2, extend3, extend4, extend5 from hd_cover
+    </sql>
+	
+    <select id="selectHdCoverList" parameterType="HdCover" resultMap="HdCoverResult">
+        <include refid="selectHdCoverVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="activityId != null "> and activity_id = #{activityId}</if>
+             <if test="url != null  and url != '' "> and url = #{url}</if>
+             <if test="createUser != null "> and create_user = #{createUser}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateUser != null "> and update_user = #{updateUser}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="extend1 != null  and extend1 != '' "> and extend1 = #{extend1}</if>
+             <if test="extend2 != null  and extend2 != '' "> and extend2 = #{extend2}</if>
+             <if test="extend3 != null  and extend3 != '' "> and extend3 = #{extend3}</if>
+             <if test="extend4 != null  and extend4 != '' "> and extend4 = #{extend4}</if>
+             <if test="extend5 != null  and extend5 != '' "> and extend5 = #{extend5}</if>
+         </where>
+    </select>
+    
+    <select id="selectHdCoverById" parameterType="Integer" resultMap="HdCoverResult">
+        <include refid="selectHdCoverVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertHdCover" parameterType="HdCover">
+        insert into hd_cover
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="activityId != null  ">activity_id,</if>
+			<if test="url != null  and url != ''  ">url,</if>
+			<if test="createUser != null  ">create_user,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateUser != null  ">update_user,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="extend1 != null  and extend1 != ''  ">extend1,</if>
+			<if test="extend2 != null  and extend2 != ''  ">extend2,</if>
+			<if test="extend3 != null  and extend3 != ''  ">extend3,</if>
+			<if test="extend4 != null  and extend4 != ''  ">extend4,</if>
+			<if test="extend5 != null  and extend5 != ''  ">extend5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="activityId != null  ">#{activityId},</if>
+			<if test="url != null  and url != ''  ">#{url},</if>
+			<if test="createUser != null  ">#{createUser},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateUser != null  ">#{updateUser},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="extend1 != null  and extend1 != ''  ">#{extend1},</if>
+			<if test="extend2 != null  and extend2 != ''  ">#{extend2},</if>
+			<if test="extend3 != null  and extend3 != ''  ">#{extend3},</if>
+			<if test="extend4 != null  and extend4 != ''  ">#{extend4},</if>
+			<if test="extend5 != null  and extend5 != ''  ">#{extend5},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateHdCover" parameterType="HdCover">
+        update hd_cover
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="activityId != null  ">activity_id = #{activityId},</if>
+            <if test="url != null  and url != ''  ">url = #{url},</if>
+            <if test="createUser != null  ">create_user = #{createUser},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateUser != null  ">update_user = #{updateUser},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="extend1 != null  and extend1 != ''  ">extend1 = #{extend1},</if>
+            <if test="extend2 != null  and extend2 != ''  ">extend2 = #{extend2},</if>
+            <if test="extend3 != null  and extend3 != ''  ">extend3 = #{extend3},</if>
+            <if test="extend4 != null  and extend4 != ''  ">extend4 = #{extend4},</if>
+            <if test="extend5 != null  and extend5 != ''  ">extend5 = #{extend5},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteHdCoverById" parameterType="Integer">
+        delete from hd_cover where id = #{id}
+    </delete>
+	
+    <delete id="deleteHdCoverByIds">
+        delete from hd_cover where id = #{id}
+    </delete>
+    
+</mapper>

@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-hdQuestionnaireGift-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">礼物名称：</label>
+				<div class="col-sm-8">
+					<input id="name" name="name" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">礼物图标：</label>
+				<div class="col-sm-8">
+					<div class="uploadImgBtn" id="uploadImgBtn">
+						<!--<img src="https://www.qmwtp.com/assets/www/ActivityPc2/img/photo4.png">-->
+						<input class="uploadImg" type="file" name="file" multiple id="file">
+					</div>
+					<div id="pics">
+
+					</div>
+					<input id="icon" name="icon" class="form-control" type="text" style="display: none">
+				</div>
+			</div>
+			<div class="form-group" style="display: none">
+				<label class="col-sm-3 control-label">问卷编号：</label>
+				<div class="col-sm-8">
+					<input id="questionnaireId" name="questionnaireId" class="form-control" type="text" th:value="${questionnaireId}">
+				</div>
+			</div>
+			<!--<div class="form-group">
+				<label class="col-sm-3 control-label">删除标识（0已删除1未删除）：</label>
+				<div class="col-sm-8">
+					<input id="extend1" name="extend1" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="extend2" name="extend2" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="extend3" name="extend3" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="extend4" name="extend4" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="extend5" name="extend5" class="form-control" type="text">
+				</div>
+			</div>-->
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "activity/hdQuestionnaireGift"
+		$("#form-hdQuestionnaireGift-add").validate({
+			rules:{
+                name:{
+                    required:true,
+                },
+			}
+		});
+
+        var urls;
+        $(document).ready(function(){
+            //为外面的盒子绑定一个点击事件
+            $("#uploadImgBtn").click(function(){
+                /*
+                1、先获取input标签
+                2、给input标签绑定change事件
+                3、把图片回显
+                 */
+//            1、先回去input标签
+                var $input = $("#file");
+                console.log($input)
+//            2、给input标签绑定change事件
+                $input.on("change" , function(){
+                    console.log(this)
+                    //补充说明：因为我们给input标签设置multiple属性，因此一次可以上传多个文件
+                    //获取选择图片的个数
+                    var files = this.files;
+                    var length = files.length;
+                    console.log("选择了"+length+"张图片");
+                    //3、回显
+                    $.each(files,function(key,value){
+                        //每次都只会遍历一个图片数据
+                        var div = document.createElement("div"),
+                            img = document.createElement("img"),
+                            btn = document.createElement("button");
+                        div.className = "pic";
+                        div.style.position="relative";
+                        div.style.marginRight="10px";
+
+                        var fr = new FileReader();
+                        fr.onload = function(){
+                            urls=this.result;
+                            img.src=this.result;
+                            btn.style.width="100px";
+                            btn.style.color="#ffffff";
+                            btn.style.backgroundColor="#ff4f4d";
+                            btn.style.position="absolute";
+                            btn.style.bottom="0px";
+                            btn.innerHTML="删除";
+                            btn.style.border="none";
+                            btn.style.borderRadius="3px";
+                            btn.type="button";
+                            btn.classList.add("tupian");
+                            div.appendChild(btn)
+                            div.appendChild(img);
+                            if($(".tupian").length<1){
+                                $("#pics").append(div);
+                            }else{
+                                layer.msg("您上传的图片太多了！")
+                            }
+                            $(".tupian").on("click",function () {
+                                $(this).parent().remove();
+                            })
+
+
+                        }
+                        fr.readAsDataURL(value);
+                    })
+                })
+
+                //4、我们把当前input标签的id属性remove
+                $input.removeAttr("id");
+                //我们做个标记，再class中再添加一个类名就叫test
+                var newInput = '<input class="uploadImg test" type="file" name="file" multiple id="file">';
+                $(this).append($(newInput));
+
+            })
+        })
+
+		function submitHandler() {
+	        if ($.validate.form()) {
+                $("#icon").val(urls)
+	            $.operate.save(prefix + "/add", $('#form-hdQuestionnaireGift-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

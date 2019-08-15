@@ -1,0 +1,190 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li style="display:none">
+								问卷ID：<input type="text" name="questionnaireId" id="questionnaireId" th:value="${player}"/>
+							</li>
+
+							<li>
+								姓名：<input type="text" name="name"/>
+							</li>
+
+							<li style="width: 100%;text-align: center">
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <!--<div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.addFull()" shiro:hasPermission="activity:hdInfo:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.editFull()" shiro:hasPermission="activity:hdInfo:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="activity:hdInfo:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="activity:hdInfo:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>-->
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('activity:hdInfo:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('activity:hdInfo:remove')}]];
+        var prefix = ctx + "activity/hdInfo";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                queryParams: queryParams,
+				modalName: "学员调查问卷内容",
+				search: false,
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'id', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'questionnaireId', 
+					title : '问卷ID',
+                    visible: false
+				},
+				{
+					field : 'name', 
+					title : '姓名',
+					sortable: true
+				},
+                    {
+                        field : 'extend2',
+                        title : '联系电话',
+                        sortable: true
+                    },
+				{
+					field : 'cause', 
+					title : '原因',
+					sortable: true
+				},
+				/*{
+					field : 'otherStudent', 
+					title : '有无其他同学考虑',
+					sortable: true
+				},
+				{
+					field : 'whyChoose', 
+					title : '为什么选择IT',
+					sortable: true
+				},
+				{
+					field : 'interest', 
+					title : '课外兴趣活动',
+					sortable: true
+				},*/
+				/*{
+					field : 'compensation', 
+					title : '薪资期望',
+					sortable: true
+				},*/
+				/*{
+					field : 'wcName', 
+					title : '微信昵称',
+					sortable: true
+				},
+				{
+					field : 'wcHeadicon', 
+					title : '微信头像',
+					sortable: true
+				},
+				{
+					field : 'wcId', 
+					title : '微信id',
+					sortable: true
+				},*/
+                    {
+                        field : 'extend1',
+                        title : '意见或建议',
+                        sortable: true
+                    },
+                    {
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				},
+                    /*{
+                        field : 'extend2',
+                        title : '',
+                        sortable: true
+                    },
+                    {
+                        field : 'extend3',
+                        title : '',
+                        sortable: true
+                    },
+                    {
+                        field : 'extend4',
+                        title : '',
+                        sortable: true
+                    },
+                    {
+                        field : 'extend5',
+                        title : '',
+                        sortable: true
+                    },*/
+		        /*{
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }*/]
+            };
+            $.table.init(options);
+        });
+
+        function queryParams(params) {
+            console.log(params.limit)
+            console.log(params.offset / params.limit + 1)
+            console.log(params.search)
+            console.log(params.sort)
+            console.log(params.order)
+            return {
+                questionnaireId:       $("#questionnaireId").val(),
+                pageSize:       params.limit,
+                pageNum:        params.offset / params.limit + 1,
+                searchValue:    params.search,
+                orderByColumn:  params.sort,
+                isAsc:          params.order
+            };
+        }
+    </script>
+</body>
+</html>

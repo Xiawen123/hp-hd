@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.activity.mapper.HdGiftMapper">
+    
+    <resultMap type="HdGift" id="HdGiftResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="icon"    column="icon"    />
+        <result property="price"    column="price"    />
+        <result property="ticket"    column="ticket"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="userName"    column="user_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="extend1"    column="extend1"    />
+        <result property="extend2"    column="extend2"    />
+        <result property="extend3"    column="extend3"    />
+        <result property="extend4"    column="extend4"    />
+        <result property="extend5"    column="extend5"    />
+    </resultMap>
+	
+	<sql id="selectHdGiftVo">
+        select id, name, icon, price, ticket, create_user, create_time, update_user, update_time, extend1, extend2, extend3, extend4, extend5 from hd_gift
+    </sql>
+	
+    <select id="selectHdGiftList" parameterType="HdGift" resultMap="HdGiftResult">
+        select a.id, a.name, a.icon, a.price, a.ticket, a.create_time, a.extend1, b.user_name from hd_gift a LEFT JOIN
+        sys_user b ON a.create_user = b.user_id
+        <where>
+            a.extend1 = 1
+            <if test="id != null "> and a.id = #{id}</if>
+             <if test="name != null  and name != '' "> and a.name = #{name}</if>
+             <if test="icon != null  and icon != '' "> and a.icon = #{icon}</if>
+             <if test="price != null "> and a.price = #{price}</if>
+             <if test="ticket != null "> and a.ticket = #{ticket}</if>
+             <if test="createUser != null "> and a.create_user = #{createUser}</if>
+             <if test="createTime != null "> and a.create_time = #{createTime}</if>
+             <if test="updateUser != null "> and a.update_user = #{updateUser}</if>
+             <if test="updateTime != null "> and a.update_time = #{updateTime}</if>
+             <if test="extend2 != null  and extend2 != '' "> and extend2 = #{extend2}</if>
+             <if test="extend3 != null  and extend3 != '' "> and extend3 = #{extend3}</if>
+             <if test="extend4 != null  and extend4 != '' "> and extend4 = #{extend4}</if>
+             <if test="extend5 != null  and extend5 != '' "> and extend5 = #{extend5}</if>
+         </where>
+    </select>
+    
+    <select id="selectHdGiftById" parameterType="Integer" resultMap="HdGiftResult">
+        <include refid="selectHdGiftVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertHdGift" parameterType="HdGift">
+        insert into hd_gift
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="icon != null  and icon != ''  ">icon,</if>
+			<if test="price != null  ">price,</if>
+			<if test="ticket != null  ">ticket,</if>
+			<if test="createUser != null  ">create_user,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateUser != null  ">update_user,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="extend1 != null  and extend1 != ''  ">extend1,</if>
+			<if test="extend2 != null  and extend2 != ''  ">extend2,</if>
+			<if test="extend3 != null  and extend3 != ''  ">extend3,</if>
+			<if test="extend4 != null  and extend4 != ''  ">extend4,</if>
+			<if test="extend5 != null  and extend5 != ''  ">extend5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="icon != null  and icon != ''  ">#{icon},</if>
+			<if test="price != null  ">#{price},</if>
+			<if test="ticket != null  ">#{ticket},</if>
+			<if test="createUser != null  ">#{createUser},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateUser != null  ">#{updateUser},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="extend1 != null  and extend1 != ''  ">#{extend1},</if>
+			<if test="extend2 != null  and extend2 != ''  ">#{extend2},</if>
+			<if test="extend3 != null  and extend3 != ''  ">#{extend3},</if>
+			<if test="extend4 != null  and extend4 != ''  ">#{extend4},</if>
+			<if test="extend5 != null  and extend5 != ''  ">#{extend5},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateHdGift" parameterType="HdGift">
+        update hd_gift
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="icon != null  and icon != ''  ">icon = #{icon},</if>
+            <if test="price != null  ">price = #{price},</if>
+            <if test="ticket != null  ">ticket = #{ticket},</if>
+            <if test="createUser != null  ">create_user = #{createUser},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateUser != null  ">update_user = #{updateUser},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="extend1 != null  and extend1 != ''  ">extend1 = #{extend1},</if>
+            <if test="extend2 != null  and extend2 != ''  ">extend2 = #{extend2},</if>
+            <if test="extend3 != null  and extend3 != ''  ">extend3 = #{extend3},</if>
+            <if test="extend4 != null  and extend4 != ''  ">extend4 = #{extend4},</if>
+            <if test="extend5 != null  and extend5 != ''  ">extend5 = #{extend5},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteHdGiftById" parameterType="Integer">
+        delete from hd_gift where id = #{id}
+    </delete>
+	
+    <delete id="deleteHdGiftByIds" parameterType="String">
+        update hd_gift set extend1 = 0 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

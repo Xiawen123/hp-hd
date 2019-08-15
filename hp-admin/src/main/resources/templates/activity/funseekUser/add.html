@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-funseekUser-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">注册账号：手机号，固定，不允许采用其他账号形式：</label>
+				<div class="col-sm-8">
+					<input id="userAccount" name="userAccount" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">登录密码，MD5或RAS加密：</label>
+				<div class="col-sm-8">
+					<input id="userPassword" name="userPassword" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户昵称（允许用户使用昵称）：</label>
+				<div class="col-sm-8">
+					<input id="nickname" name="nickname" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户的微信账号（仅限微信小程序使用）：</label>
+				<div class="col-sm-8">
+					<input id="wechatAccount" name="wechatAccount" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户的微信昵称（仅限微信小程序使用）：</label>
+				<div class="col-sm-8">
+					<input id="wechatNickname" name="wechatNickname" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户注册时的所在地（仅限小程序使用）：</label>
+				<div class="col-sm-8">
+					<input id="registAddress" name="registAddress" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户账户余额（采用整数形式，直接存储到分，比如1元，则存储为100，就是1元0角0分）：</label>
+				<div class="col-sm-8">
+					<input id="accountBalance" name="accountBalance" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">账号状态（1：正常，2：暂时禁用，指定禁用时长，3：永久禁用，4：用户已销户：</label>
+				<div class="col-sm-8">
+					<input id="accountState" name="accountState" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">如果账号被禁用，需要输入禁用原因，如用户发布不良信息，注水，肆意打广告等等：</label>
+				<div class="col-sm-8">
+					<input id="accountLimitReason" name="accountLimitReason" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">如果账号被禁用，且不是永久禁用或注销，则需要指定禁用时长：</label>
+				<div class="col-sm-8">
+					<input id="accountLimitTime" name="accountLimitTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最后登录时间：</label>
+				<div class="col-sm-8">
+					<input id="lastLoginTime" name="lastLoginTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">最后登录地址：</label>
+				<div class="col-sm-8">
+					<input id="lastLoginAddress" name="lastLoginAddress" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="createTime" name="createTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">更新时间：</label>
+				<div class="col-sm-8">
+					<input id="updateTime" name="updateTime" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">扩展字段：</label>
+				<div class="col-sm-8">
+					<input id="extend1" name="extend1" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">扩展字段2：</label>
+				<div class="col-sm-8">
+					<input id="extend2" name="extend2" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">扩展字段3：</label>
+				<div class="col-sm-8">
+					<input id="extend3" name="extend3" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "activity/funseekUser"
+		$("#form-funseekUser-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			}
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-funseekUser-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

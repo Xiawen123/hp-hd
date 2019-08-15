@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-funseekUserOrder-edit" th:object="${funseekUserOrder}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">本系统订单号（对应微信支付系统商户订单号）：</label>
+				<div class="col-sm-8">
+					<input id="orderId" name="orderId" th:field="*{orderId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户ID，关联ID，不关联用户账号：</label>
+				<div class="col-sm-8">
+					<input id="userId" name="userId" th:field="*{userId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">支付总额：精确到分，保存整数：</label>
+				<div class="col-sm-8">
+					<input id="totalFee" name="totalFee" th:field="*{totalFee}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">支付方式：对应三种 1微信支付，2支付宝支付 3银联支付：</label>
+				<div class="col-sm-8">
+					<input id="payWay" name="payWay" th:field="*{payWay}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">订单状态：0 已作废 1 正常：</label>
+				<div class="col-sm-8">
+					<input id="orderState" name="orderState" th:field="*{orderState}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户支付状态：0 未支付 1 已支付：</label>
+				<div class="col-sm-8">
+					<input id="payState" name="payState" th:field="*{payState}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">支付平台回调确认：0 未确认 1 已确认成功 2 已确认失败：</label>
+				<div class="col-sm-8">
+					<input id="notifyState" name="notifyState" th:field="*{notifyState}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">回调失败时的错误信息：</label>
+				<div class="col-sm-8">
+					<input id="notifyError" name="notifyError" th:field="*{notifyError}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">退款状态：0 未发起 1 退款中 2 退款成功 3 退款失败：</label>
+				<div class="col-sm-8">
+					<input id="refundState" name="refundState" th:field="*{refundState}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">退款失败时的错误信息：</label>
+				<div class="col-sm-8">
+					<input id="refundError" name="refundError" th:field="*{refundError}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">下单时间：</label>
+				<div class="col-sm-8">
+					<input id="createTime" name="createTime" th:field="*{createTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">更新时间：</label>
+				<div class="col-sm-8">
+					<input id="updateTime" name="updateTime" th:field="*{updateTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="extend1" name="extend1" th:field="*{extend1}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="extend2" name="extend2" th:field="*{extend2}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="extend3" name="extend3" th:field="*{extend3}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "activity/funseekUserOrder";
+		$("#form-funseekUserOrder-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			}
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-funseekUserOrder-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

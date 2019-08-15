@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.activity.mapper.FunseekUserOrderDao">
+    <resultMap id="BaseResultMap" type="com.hp.activity.domain.FunseekUserOrder">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="total_fee" jdbcType="INTEGER" property="totalFee"/>
+        <result column="pay_way" jdbcType="CHAR" property="payWay"/>
+        <result column="pay_state" jdbcType="CHAR" property="payState"/>
+        <result column="notify_error" jdbcType="VARCHAR" property="notifyError"/>
+        <result column="refund_state" jdbcType="CHAR" property="refundState"/>
+        <result column="refund_error" jdbcType="VARCHAR" property="refundError"/>
+        <result column="notify_state" jdbcType="CHAR" property="notifyState"/>
+        <result column="order_state" jdbcType="CHAR" property="orderState"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="extend1" jdbcType="VARCHAR" property="extend1"/>
+        <result column="extend2" jdbcType="VARCHAR" property="extend2"/>
+        <result column="extend3" jdbcType="VARCHAR" property="extend3"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, order_id, user_id, total_fee, pay_way, pay_state, notify_state, order_state, 
+    create_time, update_time, extend1, extend2, extend3,notify_error,refund_state,refund_error
+  </sql>
+
+    <select id="list" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        cast(A.id as char) as id, A.order_id, B.user_account, A.total_fee, A.pay_way, A.pay_state, A.notify_state,
+        A.order_state,A.notify_error,A.refund_state,A.refund_error,
+        A.create_time, A.update_time, A.extend1, A.extend2, A.extend3 from funseek_user_order A left join funseek_user B
+        on A.user_id=B.id
+        where 1=1
+        <if test="order_id!=null and order_id!=''">
+            and A.order_id=#{order_id}
+        </if>
+        <if test="user_account!=null and user_account!=''">
+            and B.user_account=#{user_account}
+        </if>
+        <if test="order_state!=null and order_state!=''">
+            and A.order_state=#{order_state}
+        </if>
+        <if test="pay_state!=null and pay_state!=''">
+            and A.pay_state=#{pay_state}
+        </if>
+        <if test="notify_state!=null and notify_state!=''">
+            and A.notify_state=#{notify_state}
+        </if>
+        <if test="refund_state!=null and refund_state!=''">
+            and A.refund_state=#{refund_state}
+        </if>
+    </select>
+
+    <select id="getByOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from funseek_user_order where order_id=#{order_id}
+    </select>
+
+    <insert id="insertEntity" keyColumn="id" keyProperty="id"
+            parameterType="com.zymcloud.funseek.modules.user.entity.FunseekUserOrder" useGeneratedKeys="true">
+    insert into funseek_user_order (id,order_id, user_id, total_fee,
+      pay_way, pay_state, notify_state,
+      order_state, create_time, update_time,
+      extend1, extend2, extend3,refund_state,refund_error,notify_error
+      )
+    values (#{id,jdbcType=BIGINT},#{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{totalFee,jdbcType=INTEGER},
+      #{payWay,jdbcType=VARCHAR}, #{payState,jdbcType=CHAR}, #{notifyState,jdbcType=CHAR},
+      #{orderState,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+      #{extend1,jdbcType=VARCHAR}, #{extend2,jdbcType=VARCHAR}, #{extend3,jdbcType=VARCHAR},#{refundState,jdbcType=CHAR},#{refundError,jdbcType=VARCHAR},#{notifyError,jdbcType=VARCHAR}
+      )
+  </insert>
+
+
+</mapper>

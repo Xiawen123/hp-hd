@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.activity.mapper.HdInfoMapper">
+    
+    <resultMap type="HdInfo" id="HdInfoResult">
+        <result property="id"    column="id"    />
+        <result property="questionnaireId"    column="questionnaire_id"    />
+        <result property="name"    column="name"    />
+        <result property="age"    column="age"    />
+        <result property="cause"    column="cause"    />
+        <result property="otherStudent"    column="other_student"    />
+        <result property="whyChoose"    column="why_choose"    />
+        <result property="interest"    column="interest"    />
+        <result property="compensation"    column="compensation"    />
+        <result property="wcName"    column="wc_name"    />
+        <result property="wcHeadicon"    column="wc_headicon"    />
+        <result property="wcId"    column="wc_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="extend1"    column="extend1"    />
+        <result property="extend2"    column="extend2"    />
+        <result property="extend3"    column="extend3"    />
+        <result property="extend4"    column="extend4"    />
+        <result property="extend5"    column="extend5"    />
+    </resultMap>
+	
+	<sql id="selectHdInfoVo">
+        select id, questionnaire_id, name, age, cause, other_student, why_choose, interest, compensation, wc_name, wc_headicon, wc_id, create_time, extend1, extend2, extend3, extend4, extend5 from hd_info
+    </sql>
+	
+    <select id="selectHdInfoList" parameterType="HdInfo" resultMap="HdInfoResult">
+        <include refid="selectHdInfoVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="questionnaireId != null "> and questionnaire_id = #{questionnaireId}</if>
+             <if test="name != null  and name != '' "> and name like concat('%', #{name}, '%')</if>
+             <if test="age != null "> and age = #{age}</if>
+             <if test="cause != null  and cause != '' "> and cause = #{cause}</if>
+             <if test="otherStudent != null "> and other_student = #{otherStudent}</if>
+             <if test="whyChoose != null  and whyChoose != '' "> and why_choose = #{whyChoose}</if>
+             <if test="interest != null  and interest != '' "> and interest = #{interest}</if>
+             <if test="compensation != null  and compensation != '' "> and compensation = #{compensation}</if>
+             <if test="wcName != null  and wcName != '' "> and wc_name = #{wcName}</if>
+             <if test="wcHeadicon != null  and wcHeadicon != '' "> and wc_headicon = #{wcHeadicon}</if>
+             <if test="wcId != null  and wcId != '' "> and wc_id = #{wcId}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="extend1 != null  and extend1 != '' "> and extend1 = #{extend1}</if>
+             <if test="extend2 != null  and extend2 != '' "> and extend2 = #{extend2}</if>
+             <if test="extend3 != null  and extend3 != '' "> and extend3 = #{extend3}</if>
+             <if test="extend4 != null  and extend4 != '' "> and extend4 = #{extend4}</if>
+             <if test="extend5 != null  and extend5 != '' "> and extend5 = #{extend5}</if>
+         </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectHdInfoById" parameterType="Long" resultMap="HdInfoResult">
+        <include refid="selectHdInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertHdInfo" parameterType="HdInfo">
+        insert into hd_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="questionnaireId != null  ">questionnaire_id,</if>
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="age != null  ">age,</if>
+			<if test="cause != null  and cause != ''  ">cause,</if>
+			<if test="otherStudent != null  ">other_student,</if>
+			<if test="whyChoose != null  and whyChoose != ''  ">why_choose,</if>
+			<if test="interest != null  and interest != ''  ">interest,</if>
+			<if test="compensation != null  and compensation != ''  ">compensation,</if>
+			<if test="wcName != null  and wcName != ''  ">wc_name,</if>
+			<if test="wcHeadicon != null  and wcHeadicon != ''  ">wc_headicon,</if>
+			<if test="wcId != null  and wcId != ''  ">wc_id,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="extend1 != null  and extend1 != ''  ">extend1,</if>
+			<if test="extend2 != null  and extend2 != ''  ">extend2,</if>
+			<if test="extend3 != null  and extend3 != ''  ">extend3,</if>
+			<if test="extend4 != null  and extend4 != ''  ">extend4,</if>
+			<if test="extend5 != null  and extend5 != ''  ">extend5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="questionnaireId != null  ">#{questionnaireId},</if>
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="age != null  ">#{age},</if>
+			<if test="cause != null  and cause != ''  ">#{cause},</if>
+			<if test="otherStudent != null  ">#{otherStudent},</if>
+			<if test="whyChoose != null  and whyChoose != ''  ">#{whyChoose},</if>
+			<if test="interest != null  and interest != ''  ">#{interest},</if>
+			<if test="compensation != null  and compensation != ''  ">#{compensation},</if>
+			<if test="wcName != null  and wcName != ''  ">#{wcName},</if>
+			<if test="wcHeadicon != null  and wcHeadicon != ''  ">#{wcHeadicon},</if>
+			<if test="wcId != null  and wcId != ''  ">#{wcId},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="extend1 != null  and extend1 != ''  ">#{extend1},</if>
+			<if test="extend2 != null  and extend2 != ''  ">#{extend2},</if>
+			<if test="extend3 != null  and extend3 != ''  ">#{extend3},</if>
+			<if test="extend4 != null  and extend4 != ''  ">#{extend4},</if>
+			<if test="extend5 != null  and extend5 != ''  ">#{extend5},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateHdInfo" parameterType="HdInfo">
+        update hd_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="questionnaireId != null  ">questionnaire_id = #{questionnaireId},</if>
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="age != null  ">age = #{age},</if>
+            <if test="cause != null  and cause != ''  ">cause = #{cause},</if>
+            <if test="otherStudent != null  ">other_student = #{otherStudent},</if>
+            <if test="whyChoose != null  and whyChoose != ''  ">why_choose = #{whyChoose},</if>
+            <if test="interest != null  and interest != ''  ">interest = #{interest},</if>
+            <if test="compensation != null  and compensation != ''  ">compensation = #{compensation},</if>
+            <if test="wcName != null  and wcName != ''  ">wc_name = #{wcName},</if>
+            <if test="wcHeadicon != null  and wcHeadicon != ''  ">wc_headicon = #{wcHeadicon},</if>
+            <if test="wcId != null  and wcId != ''  ">wc_id = #{wcId},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="extend1 != null  and extend1 != ''  ">extend1 = #{extend1},</if>
+            <if test="extend2 != null  and extend2 != ''  ">extend2 = #{extend2},</if>
+            <if test="extend3 != null  and extend3 != ''  ">extend3 = #{extend3},</if>
+            <if test="extend4 != null  and extend4 != ''  ">extend4 = #{extend4},</if>
+            <if test="extend5 != null  and extend5 != ''  ">extend5 = #{extend5},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteHdInfoById" parameterType="Long">
+        delete from hd_info where id = #{id}
+    </delete>
+	
+    <delete id="deleteHdInfoByIds" parameterType="String">
+        delete from hd_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

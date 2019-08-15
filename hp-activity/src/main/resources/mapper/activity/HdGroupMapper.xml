@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.activity.mapper.HdGroupMapper">
+    
+    <resultMap type="HdGroup" id="HdGroupResult">
+        <result property="id"    column="id"    />
+        <result property="activityId"    column="activity_id"    />
+        <result property="name"    column="name"    />
+        <result property="sort"    column="sort"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="extend1"    column="extend1"    />
+        <result property="extend2"    column="extend2"    />
+        <result property="extend3"    column="extend3"    />
+        <result property="extend4"    column="extend4"    />
+        <result property="extend5"    column="extend5"    />
+    </resultMap>
+	
+	<sql id="selectHdGroupVo">
+        select id, activity_id, name, sort, create_user, create_time, update_user, update_time, extend1, extend2, extend3, extend4, extend5 from hd_group
+    </sql>
+	
+    <select id="selectHdGroupList" parameterType="HdGroup" resultMap="HdGroupResult">
+        <include refid="selectHdGroupVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="activityId != null "> and activity_id = #{activityId}</if>
+             <if test="name != null  and name != '' "> and name = #{name}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="createUser != null "> and create_user = #{createUser}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateUser != null "> and update_user = #{updateUser}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="extend1 != null  and extend1 != '' "> and extend1 = #{extend1}</if>
+             <if test="extend2 != null  and extend2 != '' "> and extend2 = #{extend2}</if>
+             <if test="extend3 != null  and extend3 != '' "> and extend3 = #{extend3}</if>
+             <if test="extend4 != null  and extend4 != '' "> and extend4 = #{extend4}</if>
+             <if test="extend5 != null  and extend5 != '' "> and extend5 = #{extend5}</if>
+         </where>
+        order by sort asc
+    </select>
+    
+    <select id="selectHdGroupById" parameterType="Integer" resultMap="HdGroupResult">
+        <include refid="selectHdGroupVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertHdGroup" parameterType="HdGroup">
+        insert into hd_group
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="activityId != null  ">activity_id,</if>
+			<if test="name != null  and name != ''  ">name,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="createUser != null  ">create_user,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateUser != null  ">update_user,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="extend1 != null  and extend1 != ''  ">extend1,</if>
+			<if test="extend2 != null  and extend2 != ''  ">extend2,</if>
+			<if test="extend3 != null  and extend3 != ''  ">extend3,</if>
+			<if test="extend4 != null  and extend4 != ''  ">extend4,</if>
+			<if test="extend5 != null  and extend5 != ''  ">extend5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="activityId != null  ">#{activityId},</if>
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="createUser != null  ">#{createUser},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateUser != null  ">#{updateUser},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="extend1 != null  and extend1 != ''  ">#{extend1},</if>
+			<if test="extend2 != null  and extend2 != ''  ">#{extend2},</if>
+			<if test="extend3 != null  and extend3 != ''  ">#{extend3},</if>
+			<if test="extend4 != null  and extend4 != ''  ">#{extend4},</if>
+			<if test="extend5 != null  and extend5 != ''  ">#{extend5},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateHdGroup" parameterType="HdGroup">
+        update hd_group
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="activityId != null  ">activity_id = #{activityId},</if>
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="createUser != null  ">create_user = #{createUser},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateUser != null  ">update_user = #{updateUser},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="extend1 != null  and extend1 != ''  ">extend1 = #{extend1},</if>
+            <if test="extend2 != null  and extend2 != ''  ">extend2 = #{extend2},</if>
+            <if test="extend3 != null  and extend3 != ''  ">extend3 = #{extend3},</if>
+            <if test="extend4 != null  and extend4 != ''  ">extend4 = #{extend4},</if>
+            <if test="extend5 != null  and extend5 != ''  ">extend5 = #{extend5},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteHdGroupById" parameterType="Integer">
+        delete from hd_group where id = #{id}
+    </delete>
+	
+    <delete id="deleteHdGroupByIds">
+        delete from hd_group where id = #{id}
+    </delete>
+    
+</mapper>

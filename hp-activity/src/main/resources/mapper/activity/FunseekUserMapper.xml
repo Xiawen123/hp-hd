@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.activity.mapper.FunseekUserMapper">
+    
+    <resultMap type="FunseekUser" id="FunseekUserResult">
+        <result property="id"    column="id"    />
+        <result property="userAccount"    column="user_account"    />
+        <result property="userPassword"    column="user_password"    />
+        <result property="nickname"    column="nickname"    />
+        <result property="wechatAccount"    column="wechat_account"    />
+        <result property="wechatNickname"    column="wechat_nickname"    />
+        <result property="registAddress"    column="regist_address"    />
+        <result property="accountBalance"    column="account_balance"    />
+        <result property="accountState"    column="account_state"    />
+        <result property="accountLimitReason"    column="account_limit_reason"    />
+        <result property="accountLimitTime"    column="account_limit_time"    />
+        <result property="lastLoginTime"    column="last_login_time"    />
+        <result property="lastLoginAddress"    column="last_login_address"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="extend1"    column="extend1"    />
+        <result property="extend2"    column="extend2"    />
+        <result property="extend3"    column="extend3"    />
+    </resultMap>
+	
+	<sql id="selectFunseekUserVo">
+        select id, user_account, user_password, nickname, wechat_account, wechat_nickname, regist_address, account_balance, account_state, account_limit_reason, account_limit_time, last_login_time, last_login_address, create_time, update_time, extend1, extend2, extend3 from funseek_user
+    </sql>
+	
+    <select id="selectFunseekUserList" parameterType="FunseekUser" resultMap="FunseekUserResult">
+        <include refid="selectFunseekUserVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="userAccount != null  and userAccount != '' "> and user_account like concat('%', #{userAccount}, '%')</if>
+             <if test="userPassword != null  and userPassword != '' "> and user_password = #{userPassword}</if>
+             <if test="nickname != null  and nickname != '' "> and nickname like concat('%', #{nickname}, '%')</if>
+             <if test="wechatAccount != null  and wechatAccount != '' "> and wechat_account like concat('%', #{wechatAccount}, '%')</if>
+             <if test="wechatNickname != null  and wechatNickname != '' "> and wechat_nickname like concat('%', #{wechatNickname}, '%')</if>
+             <if test="registAddress != null  and registAddress != '' "> and regist_address = #{registAddress}</if>
+             <if test="accountBalance != null "> and account_balance = #{accountBalance}</if>
+             <if test="accountState != null  and accountState != '' "> and account_state = #{accountState}</if>
+             <if test="accountLimitReason != null  and accountLimitReason != '' "> and account_limit_reason = #{accountLimitReason}</if>
+             <if test="accountLimitTime != null "> and account_limit_time = #{accountLimitTime}</if>
+             <if test="lastLoginTime != null "> and last_login_time = #{lastLoginTime}</if>
+             <if test="lastLoginAddress != null  and lastLoginAddress != '' "> and last_login_address = #{lastLoginAddress}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="extend1 != null  and extend1 != '' "> and extend1 = #{extend1}</if>
+             <if test="extend2 != null  and extend2 != '' "> and extend2 = #{extend2}</if>
+             <if test="extend3 != null  and extend3 != '' "> and extend3 = #{extend3}</if>
+         </where>
+    </select>
+    
+    <select id="selectFunseekUserById" parameterType="Long" resultMap="FunseekUserResult">
+        <include refid="selectFunseekUserVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFunseekUser" parameterType="FunseekUser">
+        insert into funseek_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="userAccount != null  and userAccount != ''  ">user_account,</if>
+			<if test="userPassword != null  and userPassword != ''  ">user_password,</if>
+			<if test="nickname != null  and nickname != ''  ">nickname,</if>
+			<if test="wechatAccount != null  and wechatAccount != ''  ">wechat_account,</if>
+			<if test="wechatNickname != null  and wechatNickname != ''  ">wechat_nickname,</if>
+			<if test="registAddress != null  and registAddress != ''  ">regist_address,</if>
+			<if test="accountBalance != null  ">account_balance,</if>
+			<if test="accountState != null  and accountState != ''  ">account_state,</if>
+			<if test="accountLimitReason != null  and accountLimitReason != ''  ">account_limit_reason,</if>
+			<if test="accountLimitTime != null  ">account_limit_time,</if>
+			<if test="lastLoginTime != null  ">last_login_time,</if>
+			<if test="lastLoginAddress != null  and lastLoginAddress != ''  ">last_login_address,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="extend1 != null  and extend1 != ''  ">extend1,</if>
+			<if test="extend2 != null  and extend2 != ''  ">extend2,</if>
+			<if test="extend3 != null  and extend3 != ''  ">extend3,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="userAccount != null  and userAccount != ''  ">#{userAccount},</if>
+			<if test="userPassword != null  and userPassword != ''  ">#{userPassword},</if>
+			<if test="nickname != null  and nickname != ''  ">#{nickname},</if>
+			<if test="wechatAccount != null  and wechatAccount != ''  ">#{wechatAccount},</if>
+			<if test="wechatNickname != null  and wechatNickname != ''  ">#{wechatNickname},</if>
+			<if test="registAddress != null  and registAddress != ''  ">#{registAddress},</if>
+			<if test="accountBalance != null  ">#{accountBalance},</if>
+			<if test="accountState != null  and accountState != ''  ">#{accountState},</if>
+			<if test="accountLimitReason != null  and accountLimitReason != ''  ">#{accountLimitReason},</if>
+			<if test="accountLimitTime != null  ">#{accountLimitTime},</if>
+			<if test="lastLoginTime != null  ">#{lastLoginTime},</if>
+			<if test="lastLoginAddress != null  and lastLoginAddress != ''  ">#{lastLoginAddress},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="extend1 != null  and extend1 != ''  ">#{extend1},</if>
+			<if test="extend2 != null  and extend2 != ''  ">#{extend2},</if>
+			<if test="extend3 != null  and extend3 != ''  ">#{extend3},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateFunseekUser" parameterType="FunseekUser">
+        update funseek_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userAccount != null  and userAccount != ''  ">user_account = #{userAccount},</if>
+            <if test="userPassword != null  and userPassword != ''  ">user_password = #{userPassword},</if>
+            <if test="nickname != null  and nickname != ''  ">nickname = #{nickname},</if>
+            <if test="wechatAccount != null  and wechatAccount != ''  ">wechat_account = #{wechatAccount},</if>
+            <if test="wechatNickname != null  and wechatNickname != ''  ">wechat_nickname = #{wechatNickname},</if>
+            <if test="registAddress != null  and registAddress != ''  ">regist_address = #{registAddress},</if>
+            <if test="accountBalance != null  ">account_balance = #{accountBalance},</if>
+            <if test="accountState != null  and accountState != ''  ">account_state = #{accountState},</if>
+            <if test="accountLimitReason != null  and accountLimitReason != ''  ">account_limit_reason = #{accountLimitReason},</if>
+            <if test="accountLimitTime != null  ">account_limit_time = #{accountLimitTime},</if>
+            <if test="lastLoginTime != null  ">last_login_time = #{lastLoginTime},</if>
+            <if test="lastLoginAddress != null  and lastLoginAddress != ''  ">last_login_address = #{lastLoginAddress},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="extend1 != null  and extend1 != ''  ">extend1 = #{extend1},</if>
+            <if test="extend2 != null  and extend2 != ''  ">extend2 = #{extend2},</if>
+            <if test="extend3 != null  and extend3 != ''  ">extend3 = #{extend3},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteFunseekUserById" parameterType="Long">
+        delete from funseek_user where id = #{id}
+    </delete>
+	
+    <delete id="deleteFunseekUserByIds" parameterType="String">
+        delete from funseek_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

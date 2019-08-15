@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.activity.mapper.HdInfogiftlogMapper">
+    
+    <resultMap type="HdInfogiftlog" id="HdInfogiftlogResult">
+        <result property="id"    column="id"    />
+        <result property="infoId"    column="info_id"    />
+        <result property="giftName"    column="gift_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="extend1"    column="extend1"    />
+        <result property="extend2"    column="extend2"    />
+        <result property="extend3"    column="extend3"    />
+        <result property="extend4"    column="extend4"    />
+        <result property="extend5"    column="extend5"    />
+        <result property="name"    column="name"    />
+        <result property="start"    column="start"    />
+        <result property="end"    column="end"    />
+        <result property="time"    column="end"    />
+    </resultMap>
+	
+	<sql id="selectHdInfogiftlogVo">
+        select id, info_id, gift_name, create_time, extend1, extend2, extend3, extend4, extend5 from hd_infogiftlog
+    </sql>
+	
+    <select id="selectHdInfogiftlogList" parameterType="HdInfogiftlog" resultMap="HdInfogiftlogResult">
+        select a.id, a.gift_name, a.create_time, b.name from hd_infogiftlog a LEFT JOIN hd_info b ON a.info_id = b.id
+        <where>  
+            <if test="id != null "> and a.id = #{id}</if>
+             <if test="name != null and name != ''"> and b.name like concat('%', #{name}, '%')</if>
+             <if test="giftName != null  and giftName != '' "> and a.gift_name like concat('%', #{giftName}, '%')</if>
+             <if test="time != null and time != ''"> and a.create_time between #{start} and #{end}</if>
+             <if test="extend1 != null  and extend1 != '' "> and extend1 = #{extend1}</if>
+             <if test="extend2 != null  and extend2 != '' "> and extend2 = #{extend2}</if>
+             <if test="extend3 != null  and extend3 != '' "> and extend3 = #{extend3}</if>
+             <if test="extend4 != null  and extend4 != '' "> and extend4 = #{extend4}</if>
+             <if test="extend5 != null  and extend5 != '' "> and extend5 = #{extend5}</if>
+         </where>
+    </select>
+    
+    <select id="selectHdInfogiftlogById" parameterType="Long" resultMap="HdInfogiftlogResult">
+        <include refid="selectHdInfogiftlogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertHdInfogiftlog" parameterType="HdInfogiftlog">
+        insert into hd_infogiftlog
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="infoId != null  ">info_id,</if>
+			<if test="giftName != null  and giftName != ''  ">gift_name,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="extend1 != null  and extend1 != ''  ">extend1,</if>
+			<if test="extend2 != null  and extend2 != ''  ">extend2,</if>
+			<if test="extend3 != null  and extend3 != ''  ">extend3,</if>
+			<if test="extend4 != null  and extend4 != ''  ">extend4,</if>
+			<if test="extend5 != null  and extend5 != ''  ">extend5,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="infoId != null  ">#{infoId},</if>
+			<if test="giftName != null  and giftName != ''  ">#{giftName},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="extend1 != null  and extend1 != ''  ">#{extend1},</if>
+			<if test="extend2 != null  and extend2 != ''  ">#{extend2},</if>
+			<if test="extend3 != null  and extend3 != ''  ">#{extend3},</if>
+			<if test="extend4 != null  and extend4 != ''  ">#{extend4},</if>
+			<if test="extend5 != null  and extend5 != ''  ">#{extend5},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateHdInfogiftlog" parameterType="HdInfogiftlog">
+        update hd_infogiftlog
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="infoId != null  ">info_id = #{infoId},</if>
+            <if test="giftName != null  and giftName != ''  ">gift_name = #{giftName},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="extend1 != null  and extend1 != ''  ">extend1 = #{extend1},</if>
+            <if test="extend2 != null  and extend2 != ''  ">extend2 = #{extend2},</if>
+            <if test="extend3 != null  and extend3 != ''  ">extend3 = #{extend3},</if>
+            <if test="extend4 != null  and extend4 != ''  ">extend4 = #{extend4},</if>
+            <if test="extend5 != null  and extend5 != ''  ">extend5 = #{extend5},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteHdInfogiftlogById" parameterType="Long">
+        delete from hd_infogiftlog where id = #{id}
+    </delete>
+	
+    <delete id="deleteHdInfogiftlogByIds" parameterType="String">
+        delete from hd_infogiftlog where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
